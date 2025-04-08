@@ -14,6 +14,7 @@ import SignIn from "./Pages/Sign-in"
 import Profile from "./Pages/Profile-user"
 import { Box} from "@mui/material";
 import Booking from "./Pages/Booking";
+import api from "./config/axios";
 export default function App() {
 
   // Lista que contiene los titulos del header

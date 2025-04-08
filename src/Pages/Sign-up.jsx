@@ -104,11 +104,7 @@ export default function Sign_up() {
     };
 
     try {
-      const respuesta = await axios({
-        method: "POST",
-        url: "https://hotel-back-vgip.onrender.com/api/registrarse",
-        data: usuario,
-      });
+      const respuesta = await api.post("api/registrarse",usuario);
       console.log("res:", respuesta.data);
 
       // Se cambia el estado de la alerta
