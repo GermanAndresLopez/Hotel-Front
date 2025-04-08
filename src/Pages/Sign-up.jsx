@@ -8,10 +8,10 @@ import imagen from "../assets/images/logo.png";
 import Checkbox from "@mui/material/Checkbox";
 import { useState } from "react";
 import "../index.css";
-import axios from "axios";
 import { Button, Container, Link, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Alert from "../Components/Alert";
+import api from "../config/axios";
 
 export default function Sign_up() {
   const navigate = useNavigate();
