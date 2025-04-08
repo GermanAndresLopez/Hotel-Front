@@ -74,7 +74,7 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
               textDecoration: 'none',
             }}
           >
-            Los Misioneros
+            Hotel 
           </Typography>
 
           {/*- - Menu Responsive - -*/}
