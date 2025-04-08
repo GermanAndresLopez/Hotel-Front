@@ -7,76 +7,65 @@ import Grid from '@mui/material/Grid';
 
 const products = [
   {
-    name: 'Product 1',
-    desc: 'A nice thing',
-    price: '$9.99',
+    name: 'Habitacion',
+    desc: 'Cargo Reserva en linea',
+    price: '10.000',
   },
   {
-    name: 'Product 2',
-    desc: 'Another thing',
-    price: '$3.45',
+    name: 'Servicio al cuarto',
+    desc: 'Costo de servicio',
+    price: '20.000',
   },
-  {
-    name: 'Product 3',
-    desc: 'Something else',
-    price: '$6.51',
-  },
-  {
-    name: 'Product 4',
-    desc: 'Best thing of all',
-    price: '$14.11',
-  },
+  
   { name: 'Shipping', desc: '', price: 'Free' },
 ];
 
-const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
-const payments = [
-  { name: 'Card type', detail: 'Visa' },
-  { name: 'Card holder', detail: 'Mr John Smith' },
-  { name: 'Card number', detail: 'xxxx-xxxx-xxxx-1234' },
-  { name: 'Expiry date', detail: '04/2024' },
-];
+const addresses = [];
+const payments = [];
 
 export default function InvoiceForm() {
   return (
     <React.Fragment>
-      <Typography variant="h6" gutterBottom>
-        Order summary
+      <Typography variant="h6" gutterBottom sx={{ color: 'primary.main' }}>
+        Resumen de orden
       </Typography>
       <List disablePadding>
         {products.map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText primary={product.name} secondary={product.desc} />
-            <Typography variant="body2">{product.price}</Typography>
+            <ListItemText 
+              primary={product.name} 
+              secondary={product.desc} 
+              sx={{ color: 'primary.main' }}
+            />
+            <Typography variant="body2" sx={{ color: 'primary.main' }}>{product.price}</Typography>
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Total" />
-          <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
-            $34.06
+          <ListItemText primary="Total" sx={{ color: 'primary.main' }} />
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main' }}>
+            $180.000
           </Typography>
         </ListItem>
       </List>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
+          <Typography variant="h6" gutterBottom sx={{ mt: 2, color: 'primary.main' }}>
+            Envio
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
+          <Typography gutterBottom sx={{ color: 'primary.main' }}>{addresses.join(', ')}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Payment details
+          <Typography variant="h6" gutterBottom sx={{ mt: 2, color: 'primary.main' }}>
+            Detalles de pago
           </Typography>
           <Grid container>
             {payments.map((payment) => (
               <React.Fragment key={payment.name}>
                 <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.name}</Typography>
+                  <Typography gutterBottom sx={{ color: 'primary.main' }}>{payment.name}</Typography>
                 </Grid>
                 <Grid item xs={6}>
-                  <Typography gutterBottom>{payment.detail}</Typography>
+                  <Typography gutterBottom sx={{ color: 'primary.main' }}>{payment.detail}</Typography>
                 </Grid>
               </React.Fragment>
             ))}

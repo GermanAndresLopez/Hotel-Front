@@ -80,7 +80,7 @@ function Booking({ room = { nombre: "", precio: 0 }, auth = { userName: "" } }) 
           ))}
         </Stepper>
         {activeStep === steps.length ? (
-          <Typography variant="h5" gutterBottom>Thank you for your order.</Typography>
+          <Typography variant="h5" gutterBottom>Muchas gracias por su Orden.</Typography>
         ) : (
           <Fragment>
             {activeStep === 0 && <reservaContext.Provider value={{ reservas, setReservas }}><BookingForm /></reservaContext.Provider>}
@@ -88,8 +88,8 @@ function Booking({ room = { nombre: "", precio: 0 }, auth = { userName: "" } }) 
             {activeStep === 2 && <pagoContext.Provider value={{ pago, setPago }}><PaymentForm /></pagoContext.Provider>}
             {activeStep === 3 && <InvoiceForm />}
             <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              {activeStep !== 0 && <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>Back</Button>}
-              <Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>{activeStep === steps.length - 1 ? 'Place order' : 'Next'}</Button>
+              {activeStep !== 0 && <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>Atras</Button>}
+              <Button variant="contained" onClick={handleNext} sx={{ mt: 3, ml: 1 }}>{activeStep === steps.length - 1 ? 'Place order' : 'Siguiente'}</Button>
             </Box>
           </Fragment>
         )}

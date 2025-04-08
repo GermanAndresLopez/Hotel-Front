@@ -14,6 +14,7 @@ import SignIn from "./Pages/Sign-in"
 import Profile from "./Pages/Profile-user"
 import { Box} from "@mui/material";
 import Booking from "./Pages/Booking";
+import Bed from "./Pages/bed-rooms";
 import api from "./config/axios";
 export default function App() {
 
@@ -57,6 +58,7 @@ export default function App() {
         <Route path='/about-us' element ={<About/>} />
         <Route path='/profile' element ={<Profile/>} />
         <Route path='/Booking' element ={<Booking/>} />
+        <Route path='/bed-rooms' element ={<Bed/>} />
       </Routes>
       <Footer/>
     </Box>

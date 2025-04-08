@@ -1,49 +1,52 @@
-import { React, useState, useEffect } from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
-import Habitacion from "../Components/CardHabitacion";
-import axios from "axios";
-import Alert from "../Components/Alert";
+import React, { useState } from "react";
+import { Box, Container, Grid, Typography, Card, CardMedia, CardContent, CardActions, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
-export default function Bed({ cambiarRoom, auth }) {
-  // Estado para las habitaciones
-  const [habitaciones, setHabitaciones] = useState([]);
+const habitaciones = [
+  {
+    id: 1,
+    nombre: "Suite Presidencial",
+    descripcion: "Una suite lujosa con vista al mar.",
+    capacidad: 4,
+    precio: 350000,
+    imagen: "https://tse4.mm.bing.net/th?id=OIP.nfepFd1KATgmLo93pip8yQHaFj&pid=Api",
+  },
+  {
+    id: 2,
+    nombre: "Habitación Deluxe",
+    descripcion: "Una habitación cómoda con todas las comodidades.",
+    capacidad: 2,
+    precio: 250000,
+    imagen: "https://tse2.mm.bing.net/th?id=OIP.7a6k3sHqNy5t24LAAdS3ZQHaE8&pid=Api",
+  },
+  {
+    id: 3,
+    nombre: "Habitación Doble",
+    descripcion: "Perfecta para amigos o parejas que viajan juntos.",
+    capacidad: 2,
+    precio: 150000,
+    imagen: "https://tse2.mm.bing.net/th?id=OIP.iDNphjE7qtyrltkV2L36GwHaE8&pid=Api",
+  }
+];
 
-  // Estado para mostrar alerta
-  const [alerta, setAlerta] = useState({
-    open: false,
-    tipo: "info",
-    texto: "",
-  });
+export default function Habitaciones() {
+  const navigate = useNavigate();
+  const [auth] = useState(true); // Simulación de autenticación
 
-  const activarAlerta = () => {
-    setAlerta({
-      open: true,
-      tipo: "info",
-      texto: "Inicie sesion para poder reservar!",
-    });
+  const handleReservar = (habitacion) => {
+    if (!auth) {
+      alert("Inicie sesión para poder reservar.");
+      return;
+    }
+    alert(`Has reservado: ${habitacion.nombre}`);
   };
 
-  // Traemos los datos de las habitaciones de la base de datos
-  useEffect(() => {
-    const obtenerHabitaciones = async () => {
-      const result = await axios({
-        method: "GET",
-        url: "https://hotel-back-vgip.onrender.com/api/Habitaciones",
-      });
-      setHabitaciones(result.data.habitaciones);
-    };
-    obtenerHabitaciones();
-  }, []);
-
   return (
-    <Box sx={{marginTop: 15,
-      marginBottom: 5,}}>
-      {/*- - Titulo - -*/}
-      <Box sx={{alignContent:"center"}}>
+    <Box sx={{ marginTop: 15, marginBottom: 5 }}>
+      <Container maxWidth="lg">
         <Typography
           variant="h1"
           color="secondary"
-          component="div"
           sx={{
             textAlign: "center",
             fontSize: 50,
@@ -55,31 +58,42 @@ export default function Bed({ cambiarRoom, auth }) {
         >
           Habitaciones
         </Typography>
-        {/*- - Contenido - -*/}
-      </Box>
-      
-      <Container maxWidth="lg" >
-        <Grid container spacing={1}>
-          {/*- - Carta de la habitacion - -*/}
-          {habitaciones.map((bed, i) => (
-            <Grid key={i} item md={6} sm={12} sx={{display:"flex",justifyContent:"center"}}>
-                <Box sx={{margin:2}}>
-                  <Habitacion
-                    key={i}
-                    bed={bed}
-                    auth={auth}
-                    activarAlerta={activarAlerta}
-                    cambiarRoom={cambiarRoom}
-                  />
-                </Box>
+        <Grid container spacing={2}>
+          {habitaciones.map((habitacion) => (
+            <Grid key={habitacion.id} item md={4} sm={12} sx={{ display: "flex", justifyContent: "center" }}>
+              <Card sx={{ maxWidth: 345 }}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={habitacion.imagen}
+                  alt={habitacion.nombre}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" color="primary" component="div">
+                    {habitacion.nombre}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {habitacion.descripcion}
+                  </Typography>
+                  <Typography variant="body2" color="text.primary">
+                    Capacidad: {habitacion.capacidad} personas
+                  </Typography>
+                  <Typography variant="h6" color="primary">
+                    ${habitacion.precio} por noche
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button size="small" onClick={() => navigate(`/habitacion/${habitacion.id}`)}>Ver Detalles</Button>
+                  <Button size="small" color="success" onClick={() => navigate("/Booking")}>
+  Reservar
+</Button>
+
+                </CardActions>
+              </Card>
             </Grid>
-              
           ))}
-          {/*- - Alerta - -*/}
-          <Alert alerta={alerta} setAlerta={setAlerta} />
         </Grid>
       </Container>
-      
     </Box>
   );
 }

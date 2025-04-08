@@ -40,6 +40,10 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
       path:"/Booking",
     },
     {
+      titulo:"Habitaciones",
+      path:"/bed-rooms"
+    },
+    {
       titulo:"Cerrar Sesion",
       path:"Cerrar",
     }

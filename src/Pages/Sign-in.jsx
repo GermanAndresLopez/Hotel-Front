@@ -12,6 +12,7 @@ import "../index.css";
 import { Button, Container, Link, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Alert from "../Components/Alert";
+import api from "../config/axios";
 
 export default function Sign_in({ cambiarEstadoAuth }) {
   const navigate = useNavigate();
@@ -33,11 +34,8 @@ export default function Sign_in({ cambiarEstadoAuth }) {
   const manejarFormulario = async (evento) => {
     evento.preventDefault();
     try {
-      const respuesta = await axios({
-        method: "POST",
-        url: "https://hotel-back-vgip.onrender.com/api/login",
-        data: usuario,
-      });
+      const respuesta = await api.post("api/login",usuario);
+      console.log("res:", respuesta.data);
 
       // Alertas dependiendo de la respuesta
       if (respuesta.data.auth === false) {
