@@ -36,6 +36,10 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
       path:"/profile",
     },
     {
+      titulo: "Panel de administración",
+      path: "/dashboard",
+    },
+    {
       titulo:"Reservas",
       path:"/Booking",
     },

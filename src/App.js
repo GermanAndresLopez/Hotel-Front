@@ -16,6 +16,7 @@ import { Box} from "@mui/material";
 import Booking from "./Pages/Booking";
 import Bed from "./Pages/bed-rooms";
 import api from "./config/axios";
+import Dashboard from "./Pages/Dashboard";
 export default function App() {
 
   // Lista que contiene los titulos del header
@@ -57,6 +58,7 @@ export default function App() {
         <Route path='/contact-us' element ={<Contact/>} />
         <Route path='/about-us' element ={<About/>} />
         <Route path='/profile' element ={<Profile/>} />
+        <Route path='/dashboard' element={<Dashboard />}/>
         <Route path='/Booking' element ={<Booking/>} />
         <Route path='/bed-rooms' element ={<Bed/>} />
       </Routes>
