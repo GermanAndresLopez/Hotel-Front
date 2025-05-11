@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -17,69 +16,19 @@ import {
   Typography,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-
-import api from '../config/axios';
+import { useDashboard } from '../hooks/useDashboard';
 
 const Dashboard = () => {
-  const [habitaciones, setHabitaciones] = useState([]);
-  const [abierto, setAbierto] = useState(false);
-  const [editingRoom, setEditingRoom] = useState(null);
-
-  useEffect(() => {
-    const obtenerHabitaciones = async () => {
-      const { data } = await api.get('api/habitaciones');
-      setHabitaciones(data.habitaciones);
-    };
-
-    obtenerHabitaciones();
-  }, []);
-
-  const handleOpen = (room = null) => {
-    setEditingRoom(
-      room || {
-        identificador: crypto.randomUUID(),
-        nombre: '',
-        imagen: '',
-        descripcion: '',
-        capacidad: 1,
-        caracteristicas: '',
-        precio: 0,
-      }
-    );
-    setAbierto(true);
-  };
-
-  const handleClose = () => {
-    setEditingRoom(null);
-    setAbierto(false);
-  };
-
-  const handleSave = () => {
-    if (
-      !editingRoom?.nombre ||
-      editingRoom.capacidad < 1 ||
-      editingRoom.precio < 0
-    )
-      return;
-
-    const existe = habitaciones.find((h) => h.id === editingRoom.id);
-    if (existe) {
-      setHabitaciones(
-        habitaciones.map((h) => (h.id === editingRoom.id ? editingRoom : h))
-      );
-    } else {
-      setHabitaciones([...habitaciones, editingRoom]);
-    }
-    handleClose();
-  };
-
-  const handleDelete = async (id) => {
-    await api.delete(`api/habitaciones/${id}`);
-
-    setHabitaciones(
-      habitaciones.filter((habitacion) => habitacion.identificador !== id)
-    );
-  };
+  const {
+    editingRoom,
+    handleClose,
+    handleDelete,
+    handleEditingRoom,
+    handleOpen,
+    handleSave,
+    open,
+    rooms,
+  } = useDashboard();
 
   return (
     <Box sx={{ marginTop: 12, marginBottom: 5 }}>
@@ -121,7 +70,7 @@ const Dashboard = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {habitaciones.map((habitacion) => (
+            {rooms.map((habitacion) => (
               <TableRow key={habitacion.identificador}>
                 <TableCell sx={{ color: 'white' }}>
                   {habitacion.nombre}
@@ -151,7 +100,7 @@ const Dashboard = () => {
           </TableBody>
         </Table>
 
-        <Dialog open={abierto} onClose={handleClose} fullWidth maxWidth="md">
+        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="md">
           <DialogTitle>
             {editingRoom?.id ? 'Editar Habitación' : 'Nueva Habitación'}
           </DialogTitle>
@@ -162,7 +111,7 @@ const Dashboard = () => {
               label="Nombre"
               value={editingRoom?.nombre || ''}
               onChange={(e) =>
-                setEditingRoom({ ...editingRoom, nombre: e.target.value })
+                handleEditingRoom({ ...editingRoom, nombre: e.target.value })
               }
               fullWidth
             />
@@ -170,7 +119,7 @@ const Dashboard = () => {
               label="Imagen (URL)"
               value={editingRoom?.imagen || ''}
               onChange={(e) =>
-                setEditingRoom({ ...editingRoom, imagen: e.target.value })
+                handleEditingRoom({ ...editingRoom, imagen: e.target.value })
               }
               fullWidth
             />
@@ -178,7 +127,10 @@ const Dashboard = () => {
               label="Descripción"
               value={editingRoom?.descripcion || ''}
               onChange={(e) =>
-                setEditingRoom({ ...editingRoom, descripcion: e.target.value })
+                handleEditingRoom({
+                  ...editingRoom,
+                  descripcion: e.target.value,
+                })
               }
               fullWidth
               multiline
@@ -189,7 +141,7 @@ const Dashboard = () => {
               type="number"
               value={editingRoom?.capacidad || ''}
               onChange={(e) =>
-                setEditingRoom({
+                handleEditingRoom({
                   ...editingRoom,
                   capacidad: parseInt(e.target.value),
                 })
@@ -200,7 +152,7 @@ const Dashboard = () => {
               label="Características"
               value={editingRoom?.caracteristicas || ''}
               onChange={(e) =>
-                setEditingRoom({
+                handleEditingRoom({
                   ...editingRoom,
                   caracteristicas: e.target.value,
                 })
@@ -214,7 +166,7 @@ const Dashboard = () => {
               type="number"
               value={editingRoom?.precio || ''}
               onChange={(e) =>
-                setEditingRoom({
+                handleEditingRoom({
                   ...editingRoom,
                   precio: parseFloat(e.target.value),
                 })
