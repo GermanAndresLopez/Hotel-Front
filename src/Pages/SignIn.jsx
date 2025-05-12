@@ -1,15 +1,18 @@
-// import fetch from "fetch";
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
-import imagen from '../assets/images/logo.png';
-import { useState } from 'react';
-import '../index.css';
 
-import { Button, Container, Link, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import '../index.css';
+import imagen from '../assets/images/logo.png';
 import Alert from '../Components/Alert';
 import api from '../config/axios';
 
@@ -24,20 +27,21 @@ export default function SignIn({ cambiarEstadoAuth }) {
   });
 
   // estados
-  const [usuario, setUsuario] = useState({
+  const [formData, setFormData] = useState({
     nombreUsuario: '',
     password: '',
   });
 
   // formulario funcion
-  const manejarFormulario = async (evento) => {
-    evento.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
     try {
-      const { data } = await api.post('api/login', usuario);
-      console.log({ data });
+      const { data } = await api.post('login', formData);
+      const { auth, usuario } = data;
 
       // Alertas dependiendo de la respuesta
-      if (data.auth === false) {
+      if (!auth) {
         // Se cambia el estado de la alerta
         setAlerta({
           open: true,
@@ -46,8 +50,8 @@ export default function SignIn({ cambiarEstadoAuth }) {
         });
       } else {
         cambiarEstadoAuth({
-          auth: data.auth,
-          userName: data.usuario.nombreUsuario,
+          auth: auth,
+          userName: usuario.nombreUsuario,
         }); // Cambiar el estado de "auth"
         navigate('/');
       }
@@ -63,7 +67,7 @@ export default function SignIn({ cambiarEstadoAuth }) {
 
   // capturando usuario
   const manejarCambios = (evento) => {
-    setUsuario({ ...usuario, [evento.target.name]: evento.target.value });
+    setFormData({ ...formData, [evento.target.name]: evento.target.value });
     // console.log(evento.name, evento.target.value);
   };
 
@@ -98,7 +102,7 @@ export default function SignIn({ cambiarEstadoAuth }) {
         <Box
           component="form"
           noValidate
-          onSubmit={manejarFormulario}
+          onSubmit={handleSubmit}
           sx={{ m: 2, width: '60%' }}
         >
           {/*- - Nombre de usuario - -*/}
