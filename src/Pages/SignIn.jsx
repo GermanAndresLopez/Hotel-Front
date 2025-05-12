@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import Alert from '../Components/Alert';
 import api from '../config/axios';
 
-export default function Sign_in({ cambiarEstadoAuth }) {
+export default function SignIn({ cambiarEstadoAuth }) {
   const navigate = useNavigate();
 
   // Estado para mostrar alerta

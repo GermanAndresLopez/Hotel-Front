@@ -10,7 +10,7 @@ import SignUp from "./Pages/Sign-up";
 import Reviews from "./Pages/Reviews";
 import Contact from "./Pages/Contact-us"
 import About from "./Pages/About-us"
-import SignIn from "./Pages/Sign-in"
+import SignIn from "./Pages/SignIn"
 import Profile from "./Pages/Profile-user"
 import { Box} from "@mui/material";
 import Booking from "./Pages/Booking";
