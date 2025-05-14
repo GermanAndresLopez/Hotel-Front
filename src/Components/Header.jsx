@@ -1,7 +1,7 @@
-import { React, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "../index.css";
-import Logo from "../assets/images/logo.png";
+import { React, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import '../index.css';
 import {
   Button,
   MenuItem,
@@ -12,13 +12,14 @@ import {
   AppBar,
   Container,
   Toolbar,
-} from "@mui/material";
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import IconButtom from "./IconButtom";
+import logo from '../assets/images/logo.png';
+import IconButtom from './IconButtom';
 
-export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
+export default function Header({ listaMenu }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  
+  const { user } = useSelector((state) => state.auth);
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -32,66 +33,72 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
 
   const menu = [
     {
-      titulo:"Perfil",
-      path:"/profile",
+      titulo: 'Perfil',
+      path: '/profile',
     },
     {
-      titulo: "Panel de administración",
-      path: "/dashboard",
+      titulo: 'Panel de administración',
+      path: '/dashboard',
     },
     {
-      titulo:"Reservas",
-      path:"/Booking",
+      titulo: 'Reservas',
+      path: '/Booking',
     },
     {
-      titulo:"Habitaciones",
-      path:"/bed-rooms"
+      titulo: 'Habitaciones',
+      path: '/bed-rooms',
     },
     {
-      titulo:"Cerrar Sesion",
-      path:"Cerrar",
-    }
+      titulo: 'Cerrar Sesion',
+      path: 'Cerrar',
+    },
   ];
 
   return (
-    <AppBar color="third" sx={{
-      backdropFilter:'blur(5px) saturate(131%)',
-      WebkitBackdropFilter: 'blur(5px) saturate(131%)',
-      backgroundColor: 'rgba(17, 25, 40, 0.62)',
-      borderRadius: '0px',
-      borderBottom: '1px solid rgba(255, 255, 255, 0.125)'
-    }}>
-      <Container maxWidth="x1" color="inherit"> 
+    <AppBar
+      color="third"
+      sx={{
+        backdropFilter: 'blur(5px) saturate(131%)',
+        WebkitBackdropFilter: 'blur(5px) saturate(131%)',
+        backgroundColor: 'rgba(17, 25, 40, 0.62)',
+        borderRadius: '0px',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.125)',
+      }}
+    >
+      <Container maxWidth="x1" color="inherit">
         <Toolbar disableGutters>
           {/*- - Icono Responsive - - */}
-          <Link to="/" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}>
-            <img className="logo-main" src={Logo} alt="" />
-          </Link>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'flex' },
-              flexGrow: 0,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
+          <Link
+            to="/"
+            style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
           >
-            Hotel 
-          </Typography>
+            <img className="logo-main" src={logo} alt="" />
+            <Typography
+              variant="h6"
+              noWrap
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'flex' },
+                flexGrow: 0,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                color: 'inherit',
+                textDecoration: 'none',
+              }}
+            >
+              Hotel
+            </Typography>
+          </Link>
 
           {/*- - Menu Responsive - -*/}
-          <Box sx={{ justifyContent: 'flex-end',flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-          {auth.auth === true ? (
-            <IconButtom menu= {menu} auth = {auth} cambiarEstadoAuth={cambiarEstadoAuth}/>
-          ) : (
-            null
-          )}
+          <Box
+            sx={{
+              justifyContent: 'flex-end',
+              flexGrow: 1,
+              display: { xs: 'flex', md: 'none' },
+            }}
+          >
+            {user ? <IconButtom menu={menu} user={user} /> : null}
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -121,52 +128,61 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
               }}
             >
               {/*- - Generamos los botones del menu - -*/}
-              {ListaMenu.map((page) => (
+              {listaMenu.map((page) => (
                 <MenuItem key={page.titulo} onClick={() => navigate(page.path)}>
                   <Typography textAlign="center">{page.titulo}</Typography>
                 </MenuItem>
               ))}
 
               {/*- - Si no se ha iniciado sesion generamos los botones de registro - -*/}
-              
-              {auth.auth === false ? (
-              <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}>
-                {/*- - Boton Iniciar sesion - -*/}
-                <Button
-                  key={98}
-                  className="hover:text-violet-900"
-                  sx={{color:"black"}}
-                  onClick={() => navigate("/sign-in")}
-                >
-                  Iniciar Sesion
-                </Button>
 
-                {/* Botón Registrar */}
-                <Button
-                  key={97}
-                  className="bg-[#580ef6]"
-                  variant="contained"
-                  onClick={() => navigate("/sign-up")}
-                  
+              {!user ? (
+                <Box
+                  sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}
                 >
-                  Registrarse
-                </Button>
-              </Box>
-            ):(
-            null
-            )}
+                  {/*- - Boton Iniciar sesion - -*/}
+                  <Button
+                    key={98}
+                    className="hover:text-violet-900"
+                    sx={{ color: 'black' }}
+                    onClick={() => navigate('/sign-in')}
+                  >
+                    Iniciar Sesion
+                  </Button>
+
+                  {/* Botón Registrar */}
+                  <Button
+                    key={97}
+                    className="bg-[#580ef6]"
+                    variant="contained"
+                    onClick={() => navigate('/sign-up')}
+                  >
+                    Registrarse
+                  </Button>
+                </Box>
+              ) : null}
             </Menu>
           </Box>
 
-
           {/*- - Generamos los botones del encabezado - -*/}
-          <Box sx={{ flexGrow: 1,justifyContent: 'flex-end', display: { xs: 'none', md: 'flex' } }}>
-            {ListaMenu.map((page) => (
+          <Box
+            sx={{
+              flexGrow: 1,
+              justifyContent: 'flex-end',
+              display: { xs: 'none', md: 'flex' },
+            }}
+          >
+            {listaMenu.map((page) => (
               <Button
                 key={page.path}
                 onClick={() => navigate(page.path)}
-                sx={{ transition: "0.2s",
-                "&:hover": { transform: "scale(1.05)"},my: 2, color: 'white', display: 'block' }}
+                sx={{
+                  transition: '0.2s',
+                  '&:hover': { transform: 'scale(1.05)' },
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                }}
               >
                 {page.titulo}
               </Button>
@@ -174,16 +190,20 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
           </Box>
 
           {/*- - Ponemos los botones de registro o avatar del usuario - -*/}
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }}}>
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {/*- - Botones de Login y Registro de usuario - -*/}
-            {auth.auth === false ? (
-              <Box sx={{alignItems: 'flex-start'}}>
+            {!user ? (
+              <Box sx={{ alignItems: 'flex-start' }}>
                 {/*- - Boton Iniciar sesion - -*/}
                 <Button
                   key={96}
-                  sx={{transition: "0.2s",
-                  "&:hover": { transform: "scale(1.05)"},borderRadius:"100px", mr:2}}
-                  onClick={() => navigate("/sign-in")}
+                  sx={{
+                    transition: '0.2s',
+                    '&:hover': { transform: 'scale(1.05)' },
+                    borderRadius: '100px',
+                    mr: 2,
+                  }}
+                  onClick={() => navigate('/sign-in')}
                   variant="outlined"
                 >
                   Iniciar Sesion
@@ -193,20 +213,20 @@ export default function Header({ ListaMenu,auth, cambiarEstadoAuth }) {
                 <Button
                   key={95}
                   variant="contained"
-                  onClick={() => navigate("/sign-up")}
+                  onClick={() => navigate('/sign-up')}
                   sx={{
-                    transition: "0.2s",
-                    "&:hover": { transform: "scale(1.05)"},borderRadius:"100px"
+                    transition: '0.2s',
+                    '&:hover': { transform: 'scale(1.05)' },
+                    borderRadius: '100px',
                   }}
                 >
                   Registrarse
                 </Button>
               </Box>
             ) : (
-              <IconButtom menu= {menu} auth = {auth} cambiarEstadoAuth={cambiarEstadoAuth}/>
+              <IconButtom menu={menu} user={user} />
             )}
           </Box>
-          
         </Toolbar>
       </Container>
     </AppBar>

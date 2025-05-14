@@ -1,36 +1,34 @@
-import {React, useState} from "react";
-import {Routes,Route} from 'react-router-dom';
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
+import { React, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Header from './Components/Header';
+import Footer from './Components/Footer';
 
 //paginas import
-import Home from "./Pages/Home";
-import PropertyDetails from "./Pages/PropertyDetails";
-import SignUp from "./Pages/Sign-up";
-import Reviews from "./Pages/Reviews";
-import Contact from "./Pages/Contact-us"
-import About from "./Pages/About-us"
-import SignIn from "./Pages/SignIn"
-import Profile from "./Pages/Profile-user"
-import { Box} from "@mui/material";
-import Booking from "./Pages/Booking";
-import Bed from "./Pages/bed-rooms";
-import api from "./config/axios";
-import Dashboard from "./Pages/Dashboard";
+import Home from './Pages/Home';
+import PropertyDetails from './Pages/PropertyDetails';
+import SignUp from './Pages/Sign-up';
+import Reviews from './Pages/Reviews';
+import Contact from './Pages/Contact-us';
+import About from './Pages/About-us';
+import SignIn from './Pages/SignIn';
+import Profile from './Pages/Profile-user';
+import { Box } from '@mui/material';
+import Booking from './Pages/Booking';
+import Bed from './Pages/bed-rooms';
+import Dashboard from './Pages/Dashboard';
 export default function App() {
-
   // Lista que contiene los titulos del header
-  const ListaMenu = [
+  const listaMenu = [
     {
-      titulo:"NOSOTROS",
-      path:"/about-us"
+      titulo: 'NOSOTROS',
+      path: '/about-us',
     },
   ];
 
   // Estado para saber si un usuario inicio sesion
-  const [auth, setAuth] = useState({ 
+  const [auth, setAuth] = useState({
     auth: false,
-    userName: ""
+    userName: '',
   });
 
   // Estado para obtener los datos de la habitacion que se reservara
@@ -48,21 +46,21 @@ export default function App() {
 
   return (
     <Box>
-      <Header ListaMenu={ListaMenu} auth={auth} cambiarEstadoAuth={cambiarEstadoAuth}/> 
-      <Routes> 
-        <Route path='/' element ={<Home/>} />
-        <Route path='/sign-up' element ={<SignUp/>} />
-        <Route path='/sign-in' element ={<SignIn cambiarEstadoAuth={cambiarEstadoAuth}/>} />
-        <Route path='/propiedades/:id' element={<PropertyDetails/>}/>
-        <Route path='/reviews' element ={<Reviews/>} />
-        <Route path='/contact-us' element ={<Contact/>} />
-        <Route path='/about-us' element ={<About/>} />
-        <Route path='/profile' element ={<Profile/>} />
-        <Route path='/dashboard' element={<Dashboard />}/>
-        <Route path='/Booking' element ={<Booking/>} />
-        <Route path='/bed-rooms' element ={<Bed/>} />
+      <Header listaMenu={listaMenu} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/propiedades/:id" element={<PropertyDetails />} />
+        <Route path="/reviews" element={<Reviews />} />
+        <Route path="/contact-us" element={<Contact />} />
+        <Route path="/about-us" element={<About />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/Booking" element={<Booking />} />
+        <Route path="/bed-rooms" element={<Bed />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </Box>
   );
 }

@@ -1,75 +1,25 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Box,
-  Button,
-  Container,
-  Link,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Link } from 'react-router-dom';
+import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 
 import '../index.css';
 import imagen from '../assets/images/logo.png';
 import Alert from '../Components/Alert';
-import api from '../config/axios';
+import { useSignIn } from '../hooks/auth/useSignIn';
 
-export default function SignIn({ cambiarEstadoAuth }) {
-  const navigate = useNavigate();
-
-  // Estado para mostrar alerta
-  const [alerta, setAlerta] = useState({
-    open: false,
-    tipo: 'info',
-    texto: '',
-  });
-
-  // estados
-  const [formData, setFormData] = useState({
-    nombreUsuario: '',
-    password: '',
-  });
-
-  // formulario funcion
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await api.post('login', formData);
-      const { auth, usuario } = data;
-
-      // Alertas dependiendo de la respuesta
-      if (!auth) {
-        // Se cambia el estado de la alerta
-        setAlerta({
-          open: true,
-          tipo: 'error',
-          texto: 'Usuario o Contraseña incorrectos!',
-        });
-      } else {
-        cambiarEstadoAuth({
-          auth: auth,
-          userName: usuario.nombreUsuario,
-        }); // Cambiar el estado de "auth"
-        navigate('/');
-      }
-    } catch (error) {
-      // Se cambia el estado de la alertas
-      setAlerta({
-        open: true,
-        tipo: 'warning',
-        texto: 'Error al verificar los datos',
-      });
-    }
-  };
-
-  // capturando usuario
-  const manejarCambios = (evento) => {
-    setFormData({ ...formData, [evento.target.name]: evento.target.value });
-    // console.log(evento.name, evento.target.value);
-  };
+export default function SignIn() {
+  const {
+    alerta,
+    setAlerta,
+    handleSubmit,
+    isFormSubmitted,
+    nombreUsuario,
+    nombreUsuarioValid,
+    onInputChange,
+    password,
+    passwordValid,
+  } = useSignIn();
 
   return (
     <Container maxWidth="sm">
@@ -84,9 +34,7 @@ export default function SignIn({ cambiarEstadoAuth }) {
           mb: 10,
         }}
       >
-        <Box sx={{ m: 1 }}>
-          <img src={imagen} alt="" />
-        </Box>
+        <img src={imagen} alt="" />
         <Typography
           component="h1"
           variant="h5"
@@ -99,19 +47,24 @@ export default function SignIn({ cambiarEstadoAuth }) {
         >
           Iniciar Sesión
         </Typography>
-        <Box
-          component="form"
+
+        <form
           noValidate
           onSubmit={handleSubmit}
-          sx={{ m: 2, width: '60%' }}
+          style={{ margin: '30px', width: '60%' }}
         >
           {/*- - Nombre de usuario - -*/}
-          <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              mb: 1,
+            }}
+          >
             <AccountCircle
               sx={{
                 color: 'primary',
-                marginRight: '1px',
-                marginBottom: '0.5px',
+                margin: '10px 0.5px 0 0',
               }}
             />
             <TextField
@@ -131,9 +84,11 @@ export default function SignIn({ cambiarEstadoAuth }) {
               variant="standard"
               label="Nombre De Usuario"
               color="secondary"
-              required
+              value={nombreUsuario}
               fullWidth
-              onChange={manejarCambios}
+              error={!!nombreUsuarioValid && isFormSubmitted}
+              helperText={isFormSubmitted && nombreUsuarioValid}
+              onChange={onInputChange}
               InputLabelProps={{ style: { color: 'white' } }}
               inputProps={{
                 'aria-label': 'nombreUsuario',
@@ -143,7 +98,7 @@ export default function SignIn({ cambiarEstadoAuth }) {
           </Box>
 
           {/*- - Contraseña - -*/}
-          <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
             <LockIcon
               sx={{
                 color: 'primary',
@@ -168,14 +123,16 @@ export default function SignIn({ cambiarEstadoAuth }) {
               variant="standard"
               label="Contraseña"
               type="password"
-              required
+              value={password}
               fullWidth
+              error={!!passwordValid && isFormSubmitted}
+              helperText={isFormSubmitted && passwordValid}
               InputLabelProps={{ style: { color: 'white' } }}
               inputProps={{
                 'aria-label': 'Contraseña',
                 style: { color: 'white' },
               }}
-              onChange={manejarCambios}
+              onChange={onInputChange}
             />
           </Box>
 
@@ -186,13 +143,15 @@ export default function SignIn({ cambiarEstadoAuth }) {
             margin="2px"
             sx={{ mb: 1 }}
           >
-            <Typography
-              variant="body2"
-              color="primary"
-              sx={{ fontSize: '14px', cursor: 'pointer' }}
-            >
-              <Link>¿olvidaste tu contraseña?</Link>
-            </Typography>
+            <Link>
+              <Typography
+                variant="body2"
+                color="primary"
+                sx={{ fontSize: '14px', cursor: 'pointer' }}
+              >
+                ¿Olvidaste tu contraseña?
+              </Typography>
+            </Link>
           </Box>
 
           {/* Notificación de alerta */}
@@ -220,12 +179,14 @@ export default function SignIn({ cambiarEstadoAuth }) {
               variant="body2"
               color="secondary"
               sx={{ fontSize: '14px', paddingRight: '1px', cursor: 'pointer' }}
-              onClick={() => navigate('/sign-up')}
             >
-              ¿No tienes cuenta?<Link color="primary">Registrarse</Link>
+              ¿No tienes cuenta?{' '}
+              <Link to="/sign-up" style={{ color: '#580EF6' }}>
+                Registrarse
+              </Link>
             </Typography>
           </Box>
-        </Box>
+        </form>
       </Box>
     </Container>
   );
