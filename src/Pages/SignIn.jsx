@@ -13,6 +13,7 @@ export default function SignIn() {
     alerta,
     setAlerta,
     handleSubmit,
+    navigate,
     isFormSubmitted,
     nombreUsuario,
     nombreUsuarioValid,

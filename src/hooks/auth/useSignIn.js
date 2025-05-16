@@ -88,5 +88,6 @@ export const useSignIn = () => {
     password,
     passwordValid,
     setAlerta,
+    navigate,
   };
 };
