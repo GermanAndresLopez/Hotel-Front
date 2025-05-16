@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
-
+import ForgotPassword from './ForgotPassword';
 import '../index.css';
 import imagen from '../assets/images/logo.png';
 import Alert from '../Components/Alert';
@@ -143,17 +143,16 @@ export default function SignIn() {
             margin="2px"
             sx={{ mb: 1 }}
           >
-            <Link>
-              <Typography
-                variant="body2"
-                color="primary"
-                sx={{ fontSize: '14px', cursor: 'pointer' }}
-              >
-                ¿Olvidaste tu contraseña?
-              </Typography>
-            </Link>
-          </Box>
+            <Typography
+              variant="body2"
+              color="primary"
+              sx={{ fontSize: "14px", cursor: "pointer" }}
+            >
+              <Link onClick={() => navigate("/ForgotPassword")}>¿Olvidaste tu contraseña?</Link>
+              
 
+            </Typography>
+          </Box>
           {/* Notificación de alerta */}
           <Alert alerta={alerta} setAlerta={setAlerta} />
 

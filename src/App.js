@@ -16,6 +16,8 @@ import { Box } from '@mui/material';
 import Booking from './Pages/Booking';
 import Bed from './Pages/bed-rooms';
 import Dashboard from './Pages/Dashboard';
+import ForgotPassword from './Pages/ForgotPassword';
+import ResetPassword from './Pages/ResetPassword';
 export default function App() {
   // Lista que contiene los titulos del header
   const listaMenu = [
@@ -59,6 +61,8 @@ export default function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path="/bed-rooms" element={<Bed />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+<Route path="/ResetPassword/:token" element={<ResetPassword />} />
       </Routes>
       <Footer />
     </Box>
