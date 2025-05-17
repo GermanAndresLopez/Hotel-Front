@@ -21,7 +21,7 @@ function ResetPassword() {
     }
 
     try {
-      const response = await api.post(`api/reset-password/${token}`, { nuevaPassword });
+      const response = await api.post(`/reset-password/${token}`, { nuevaPassword });
       setMensaje(response.data.message || "Contraseña restablecida con éxito.");
       setTimeout(() => navigate('/login'), 3000);
     } catch (err) {

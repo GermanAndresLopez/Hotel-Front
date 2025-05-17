@@ -47,7 +47,7 @@ export default function ForgotPassword() {
     }
 
     try {
-      await api.get(`/api/solicitar-recuperacion?correo=${email}`);
+      await api.get(`/solicitar-recuperacion?correo=${email}`);
       setAlerta({
         open: true,
         tipo: "success",
