@@ -149,7 +149,7 @@ export default function SignIn() {
               color="primary"
               sx={{ fontSize: "14px", cursor: "pointer" }}
             >
-              <Link onClick={() => navigate("/ForgotPassword")}>¿Olvidaste tu contraseña?</Link>
+              <Link onClick={() => navigate("/ForgotPasswords")}>¿Olvidaste tu contraseña?</Link>
               
 
             </Typography>
