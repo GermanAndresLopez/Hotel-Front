@@ -104,7 +104,7 @@ export default function Sign_up() {
     };
 
     try {
-      const respuesta = await api.post("api/registrarse",usuario);
+      const respuesta = await api.post("/registrarse",usuario);
       console.log("res:", respuesta.data);
 
       // Se cambia el estado de la alerta
