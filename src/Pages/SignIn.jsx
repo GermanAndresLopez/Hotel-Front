@@ -4,22 +4,47 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
 import '../index.css';
 import imagen from '../assets/images/logo.png';
-import Alert from '../Components/Alert';
-import { useSignIn } from '../hooks/auth/useSignIn';
+import { useAuthStore } from '../hooks/useAuthStore';
+import { useForm } from '../hooks/useForm';
+
+const signInForm = {
+  username: '',
+  password: '',
+};
+
+const formValidations = {
+  username: [
+    (value = '') => value.trim().length !== 0,
+    'Debe ingresar el nombre de usuario',
+  ],
+  password: [
+    (value = '') => value.trim().length !== 0,
+    'Debe ingresar la contraseña',
+  ],
+};
 
 export default function SignIn() {
   const {
-    alerta,
-    setAlerta,
-    handleSubmit,
-    navigate,
-    isFormSubmitted,
-    nombreUsuario,
-    nombreUsuarioValid,
+    isFormPosted,
+    isFormValid,
     onInputChange,
     password,
     passwordValid,
-  } = useSignIn();
+    setIsFormPosted,
+    username,
+    usernameValid,
+  } = useForm(signInForm, formValidations);
+
+  const { startSignIn } = useAuthStore();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (!isFormPosted) setIsFormPosted(true);
+    if (!isFormValid) return;
+
+    startSignIn(username, password);
+  };
 
   return (
     <Container maxWidth="sm">
@@ -79,21 +104,21 @@ export default function SignIn() {
                   borderBottomColor: 'white', // Cambia el color de la línea en hover
                 },
               }}
-              name="nombreUsuario"
-              id="standard-basic"
+              name="username"
+              size="normal"
               variant="standard"
-              label="Nombre De Usuario"
-              color="secondary"
-              value={nombreUsuario}
+              label="Usuario"
+              type="text"
+              value={username}
               fullWidth
-              error={!!nombreUsuarioValid && isFormSubmitted}
-              helperText={isFormSubmitted && nombreUsuarioValid}
-              onChange={onInputChange}
+              error={!!usernameValid && isFormPosted}
+              helperText={isFormPosted && usernameValid}
               InputLabelProps={{ style: { color: 'white' } }}
               inputProps={{
-                'aria-label': 'nombreUsuario',
+                'aria-label': 'username',
                 style: { color: 'white' },
               }}
+              onChange={onInputChange}
             />
           </Box>
 
@@ -125,11 +150,11 @@ export default function SignIn() {
               type="password"
               value={password}
               fullWidth
-              error={!!passwordValid && isFormSubmitted}
-              helperText={isFormSubmitted && passwordValid}
+              error={!!passwordValid && isFormPosted}
+              helperText={isFormPosted && passwordValid}
               InputLabelProps={{ style: { color: 'white' } }}
               inputProps={{
-                'aria-label': 'Contraseña',
+                'aria-label': 'password',
                 style: { color: 'white' },
               }}
               onChange={onInputChange}
@@ -146,22 +171,18 @@ export default function SignIn() {
             <Typography
               variant="body2"
               color="primary"
-              sx={{ fontSize: "14px", cursor: "pointer" }}
+              sx={{ fontSize: '14px', cursor: 'pointer' }}
+            ></Typography>
+            <Typography
+              variant="body2"
+              color="primary"
+              sx={{ fontSize: '14px' }}
             >
-             <Box display="flex" justifyContent="flex-end" margin="2px" sx={{ mb: 1 }}>
-  <Typography variant="body2" color="primary" sx={{ fontSize: "14px" }}>
-    <Link to="/ForgotPassword" style={{ color: '#580EF6' }}>
-      ¿Olvidaste tu contraseña?
-    </Link>
-  </Typography>
-</Box>
-
-              
-
+              <Link to="/ForgotPassword" style={{ color: '#580EF6' }}>
+                ¿Olvidaste tu contraseña?
+              </Link>
             </Typography>
           </Box>
-          {/* Notificación de alerta */}
-          <Alert alerta={alerta} setAlerta={setAlerta} />
 
           {/*- - Boton del formulario - -*/}
           <Box
