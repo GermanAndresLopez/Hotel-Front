@@ -5,7 +5,7 @@ import { chekingCredentials, onLogin, onLogout } from '../store/auth/authSlice';
 import { delay } from '../lib/delay';
 
 export const useAuthStore = () => {
-  const { status } = useSelector((state) => state.auth);
+  const { status, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const startSignIn = async (username, password) => {
@@ -61,5 +61,6 @@ export const useAuthStore = () => {
     startLogout,
     startSignIn,
     status,
+    user,
   };
 };
