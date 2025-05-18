@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Box, Container, Grid, Typography } from "@mui/material";
 import Habitacion from "../Components/CardHabitacion";
 import axios from "axios";
-import Alert from "../Components/Alert";
+import Alert from "../Components/CustomAlert";
 
 export default function Bed({ cambiarRoom, auth }) {
   // Estado para las habitaciones

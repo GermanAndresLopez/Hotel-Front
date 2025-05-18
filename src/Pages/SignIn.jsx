@@ -2,10 +2,12 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
+
 import '../index.css';
 import imagen from '../assets/images/logo.png';
 import { useAuthStore } from '../hooks/useAuthStore';
 import { useForm } from '../hooks/useForm';
+import CustomAlert from '../Components/CustomAlert';
 
 const signInForm = {
   username: '',
@@ -35,9 +37,9 @@ export default function SignIn() {
     usernameValid,
   } = useForm(signInForm, formValidations);
 
-  const { startSignIn } = useAuthStore();
+  const { errorMessage, startSignIn } = useAuthStore();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!isFormPosted) setIsFormPosted(true);
@@ -168,20 +170,15 @@ export default function SignIn() {
             margin="2px"
             sx={{ mb: 1 }}
           >
-            <Typography
-              variant="body2"
-              color="primary"
-              sx={{ fontSize: '14px', cursor: 'pointer' }}
-            ></Typography>
-            <Typography
-              variant="body2"
-              color="primary"
-              sx={{ fontSize: '14px' }}
-            >
-              <Link to="/ForgotPassword" style={{ color: '#580EF6' }}>
+            <Link to="/resetPassword">
+              <Typography
+                variant="body2"
+                color="primary"
+                sx={{ fontSize: '14px' }}
+              >
                 ¿Olvidaste tu contraseña?
-              </Link>
-            </Typography>
+              </Typography>
+            </Link>
           </Box>
 
           {/*- - Boton del formulario - -*/}
@@ -205,7 +202,11 @@ export default function SignIn() {
             <Typography
               variant="body2"
               color="secondary"
-              sx={{ fontSize: '14px', paddingRight: '1px', cursor: 'pointer' }}
+              sx={{
+                fontSize: '14px',
+                paddingRight: '1px',
+                cursor: 'pointer',
+              }}
             >
               ¿No tienes cuenta?{' '}
               <Link to="/sign-up" style={{ color: '#580EF6' }}>
@@ -215,6 +216,10 @@ export default function SignIn() {
           </Box>
         </form>
       </Box>
+
+      <CustomAlert open={!!errorMessage} severity="error">
+        {errorMessage}
+      </CustomAlert>
     </Container>
   );
 }

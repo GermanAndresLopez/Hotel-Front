@@ -1,17 +1,22 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 
+import {
+  Box,
+  Button,
+  Container,
+  Link,
+  TextField,
+  Typography,
+} from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Button, Container, Link, Typography } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
 import EmailIcon from '@mui/icons-material/AlternateEmail';
 import Checkbox from '@mui/material/Checkbox';
 
 import imagen from '../assets/images/logo.png';
 import '../index.css';
-import Alert from '../Components/Alert';
+import Alert from '../Components/CustomAlert';
 import api from '../config/axios';
 
 export default function Sign_up() {

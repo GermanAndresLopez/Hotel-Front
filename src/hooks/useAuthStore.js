@@ -5,7 +5,7 @@ import { chekingCredentials, onLogin, onLogout } from '../store/auth/authSlice';
 import { delay } from '../lib/delay';
 
 export const useAuthStore = () => {
-  const { status, user } = useSelector((state) => state.auth);
+  const { errorMessage, status, user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const startSignIn = async (username, password) => {
@@ -15,10 +15,10 @@ export const useAuthStore = () => {
         password,
       });
 
-      const { auth, message, usuario } = res.data;
+      const { auth, usuario } = res.data;
 
       if (!auth) {
-        dispatch(onLogout(message));
+        dispatch(onLogout('Usuario o contraseña incorrecta'));
         return;
       }
 
@@ -58,6 +58,7 @@ export const useAuthStore = () => {
 
   return {
     checkAuthToken,
+    errorMessage,
     startLogout,
     startSignIn,
     status,
