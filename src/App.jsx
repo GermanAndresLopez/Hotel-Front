@@ -1,7 +1,9 @@
 import {React, useState} from "react";
 import {Routes,Route} from 'react-router-dom';
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
+//import Header from "./Components/Header";
+//import Footer from "./Components/Footer";
+import Header from "./Pages/user/home/components/header";
+import Footer from "./Pages/user/home/components/footer"
 
 import { ThemeProvider } from "./Pages/user/home/hooks/theme-provider";  // 👈 Importa tu ThemeProvider
 
@@ -52,6 +54,7 @@ export default function App() {
     <ThemeProvider defaultTheme="dark" attribute="class">  {/* 👈 Aquí envolvemos todo */}
       <Box className="min-h-screen bg-background antialiased">
         {/* <Header ListaMenu={ListaMenu} auth={auth} cambiarEstadoAuth={cambiarEstadoAuth} />  */}
+        <Header />
 
         <Routes> 
           <Route path='/' element={<Home />} />
@@ -67,6 +70,7 @@ export default function App() {
           <Route path='/bed-rooms' element={<Bed />} />
         </Routes>
 
+        <Footer />
         {/* <Footer /> */}
       </Box>
     </ThemeProvider>

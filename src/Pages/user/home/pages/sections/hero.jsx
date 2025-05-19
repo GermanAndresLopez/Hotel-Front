@@ -1,13 +1,14 @@
 import React from "react"
 import { Button } from "../../components/ui/button"
+import image from "../../../../../assets/images/HotelWal.jpg"
 
 export default function Hero() {
   return (
-    <section className="relative h-[90vh] w-full overflow-hidden">
+    <section className="relative h-[90vh] w-full overflow-hidden" id="inicio">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="/placeholder.svg?height=1080&width=1920"
+          src={image}
           alt="Luxury Hotel"
           className="object-cover w-full h-full absolute inset-0"
           style={{ objectFit: "cover" }}
@@ -26,10 +27,10 @@ export default function Hero() {
             primera clase.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="bg-purple-600 hover:bg-purple-700">
+            <Button size="lg" className="bg-purple-600 hover:bg-purple-700 cursor-pointer">
               Reservar Ahora
             </Button>
-            <Button variant="outline" size="lg" className="border-purple-500 text-purple-400 hover:bg-purple-500/20">
+            <Button variant="outline" size="lg" className="border-purple-500 text-purple-400 hover:bg-purple-500/20 cursor-pointer">
               Explorar Habitaciones
             </Button>
           </div>

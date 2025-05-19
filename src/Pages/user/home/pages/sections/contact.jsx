@@ -37,7 +37,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="!py-16 bg-background">
+    <section id="contacto" className="!py-16 bg-background">
       <div className="container !mx-auto !px-4">
         <div className="text-center !mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-purple-400 !mb-4">Contáctanos</h2>
@@ -134,14 +134,14 @@ export default function Contact() {
             {/* Map */}
             <div className="h-[400px] w-full rounded-lg overflow-hidden shadow-sm dark:shadow-none">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.67890!2d-73.9876!3d40.7488!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzU1LjciTiA3M8KwNTknMTUuNCJX!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.723923098516!2d-73.25163228573587!3d10.47424499251745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e8a2e6d5f835d85%3A0xb73b4c9fa1cb3f3!2sValledupar%2C%20Cesar%2C%20Colombia!5e0!3m2!1ses!2sco!4v1716133123000!5m2!1ses!2sco"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+
             </div>
 
             {/* Contact Info */}

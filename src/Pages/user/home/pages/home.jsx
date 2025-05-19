@@ -11,7 +11,7 @@ import Footer from "../components/footer"
 export const Home = () => {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      {/*<Header />*/}
       <main className="flex-grow">
         <Hero />
         <Features />
@@ -21,7 +21,7 @@ export const Home = () => {
         <BookingCTA />
         <Contact />
       </main>
-      <Footer />
+      {/*<Footer />*/}
     </div>
   )
 }

@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
+import hbtDeluxe from "../../../../../assets/images/Habitacion-1/h-1.jpg"
+import hbtEjecutiva from "../../../../../assets/images/Habitacion-2/h-1.jpg"
+import hbtPresidencial from "../../../../../assets/images/Habitacion-3/h-1.jpg"
 
 const rooms = [
   {
@@ -8,7 +11,7 @@ const rooms = [
     description: "Espaciosa habitación con vistas panorámicas, cama king-size y baño de lujo.",
     price: 199,
     rating: 4.8,
-    image: "/placeholder.svg",
+    image: hbtDeluxe,
     features: ["Cama King-size", "Vista panorámica", "Baño de mármol", "Minibar premium"],
   },
   {
@@ -17,7 +20,7 @@ const rooms = [
     description: "Suite elegante con sala de estar separada, perfecta para viajes de negocios o placer.",
     price: 299,
     rating: 4.9,
-    image: "/placeholder.svg",
+    image: hbtEjecutiva,
     features: ["Sala de estar separada", "Escritorio de trabajo", "Bañera de hidromasaje", "Servicio de mayordomo"],
   },
   {
@@ -26,7 +29,7 @@ const rooms = [
     description: "Nuestra suite más exclusiva con vistas impresionantes, jacuzzi privado y servicios VIP.",
     price: 499,
     rating: 5.0,
-    image: "/placeholder.svg",
+    image: hbtPresidencial,
     features: ["Terraza privada", "Jacuzzi", "Comedor privado", "Servicios VIP"],
   },
 ];
@@ -45,83 +48,77 @@ export default function Rooms() {
   const currentRoom = rooms[currentIndex];
 
   return (
-    <section className="py-16 bg-secondary/30 dark:bg-secondary/30">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400 mb-4">
+    <section className="!py-16 bg-purple-90/10 " id="habitaciones">
+      <div className="container !mx-auto !px-4">
+        <div className="text-center !mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-purple-400 !mb-4">
             Nuestras Habitaciones
           </h2>
-          <p className="text-foreground/70 max-w-2xl mx-auto">
+          <p className="text-foreground/70 max-w-2xl !mx-auto">
             Descubre nuestras lujosas habitaciones y suites diseñadas para ofrecerte el máximo confort y elegancia.
           </p>
         </div>
 
-        <div className="relative max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            {/* Imagen */}
-            <div className="relative h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-lg">
+        <div className="relative max-w-5xl !mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 !gap-8 items-center">
+            <div className="relative h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-md">
               <img
                 src={currentRoom.image}
                 alt={currentRoom.name}
-                className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-500"
               />
 
-              {/* Botones de navegación */}
-              <div className="absolute inset-0 flex items-center justify-between p-4">
+              <div className="absolute inset-0 flex items-center justify-between !p-4">
                 <button
                   onClick={prevSlide}
-                  className="bg-black/40 hover:bg-black/60 text-white p-2 rounded-full shadow-md backdrop-blur transition"
+                  className="bg-black/50 hover:bg-black/70 text-white !p-2 rounded-full transition-colors cursor-pointer"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="bg-black/40 hover:bg-black/60 text-white p-2 rounded-full shadow-md backdrop-blur transition"
+                  className="bg-black/50 hover:bg-black/70 text-white !p-2 rounded-full transition-colors cursor-pointer"
                 >
                   <ChevronRight size={24} />
                 </button>
               </div>
 
-              {/* Indicadores */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center !space-x-2">
                 {rooms.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full border-2 border-purple-500 ${
-                      index === currentIndex ? "bg-purple-500" : "bg-white"
+                    className={`w-2 h-2 rounded-full transition-colors ${
+                      index === currentIndex ? "bg-purple-500" : "bg-white/50"
                     }`}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Detalles habitación */}
-            <div className="bg-white dark:bg-secondary/50 p-8 rounded-xl border border-border shadow-sm dark:shadow-none">
-              <div className="flex justify-between items-start mb-4">
-                <h3 className="text-2xl font-bold text-purple-600 dark:text-purple-400">{currentRoom.name}</h3>
-                <div className="flex items-center bg-purple-100 dark:bg-purple-900/50 px-3 py-1 rounded-full">
-                  <Star size={16} className="text-purple-600 dark:text-purple-400 mr-1" />
+            <div className="bg-purple-900/50 !p-8 rounded-xl border-gray-200  shadow-none">
+              <div className="flex justify-between items-start !mb-4">
+                <h3 className="text-2xl font-bold  text-purple-400">{currentRoom.name}</h3>
+                <div className="flex items-center  bg-purple-900/50 !px-3 !py-1 rounded-full">
+                  <Star size={16} className=" text-purple-400 !mr-1" />
                   <span>{currentRoom.rating}</span>
                 </div>
               </div>
 
-              <div className="mb-4">
-                <span className="text-2xl font-bold text-purple-700 dark:text-purple-300">${currentRoom.price}</span>
+              <div className="!mb-4">
+                <span className="text-2xl font-bold">${currentRoom.price}</span>
                 <span className="text-foreground/70 text-sm"> / noche</span>
               </div>
 
-              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-                {currentRoom.description}
-              </p>
+              <p className="text-foreground/80 !mb-6">{currentRoom.description}</p>
 
-              <div className="mb-6">
-                <h4 className="text-lg font-semibold mb-3 text-purple-600 dark:text-purple-300">Características</h4>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+              <div className="!mb-6">
+                <h4 className="text-lg font-semibold !mb-3">Características</h4>
+                <ul className="grid grid-cols-1 md:grid-cols-2 !gap-2">
                   {currentRoom.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-gray-800 dark:text-gray-200">
+                    <li key={index} className="flex items-center text-foreground/80">
                       <svg
-                        className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2"
+                        className="h-4 w-4  text-purple-400 !mr-2"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -134,7 +131,7 @@ export default function Rooms() {
                 </ul>
               </div>
 
-              <button className="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 transition text-white font-semibold py-2 rounded-lg shadow-md">
+              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white !py-2 rounded-lg">
                 Reservar Esta Habitación
               </button>
             </div>

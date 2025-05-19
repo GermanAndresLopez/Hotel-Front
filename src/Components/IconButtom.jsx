@@ -43,7 +43,7 @@ export default function IconButtom({ menu, user }) {
         <Tooltip title="Abrir Configuracion">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
-              alt={user.nombreUsuario}
+              alt={user?.nombreUsuario}
               src={userImage}
               sx={{ bgcolor: '#580EF6' }}
             />

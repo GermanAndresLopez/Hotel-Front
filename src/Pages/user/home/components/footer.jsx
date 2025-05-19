@@ -98,7 +98,7 @@ export default function Footer() {
               />
               <button
                 type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white !py-2 !px-4 rounded-md transition-colors"
+                className="w-full cursor-pointer bg-purple-600 hover:bg-purple-700 text-white !py-2 !px-4 rounded-md transition-colors"
               >
                 Suscribirse
               </button>
