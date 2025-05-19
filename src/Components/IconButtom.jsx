@@ -1,5 +1,6 @@
 import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   Avatar,
   Box,
@@ -11,11 +12,11 @@ import {
 } from '@mui/material';
 
 import userImage from '../assets/images/Clientes/c-1.jpg';
-import { useAuthStore } from '../hooks/useAuthStore';
+import { onLogout } from '../store/auth';
 
 export default function IconButtom({ menu, user }) {
   const navigate = useNavigate();
-  const { startLogout } = useAuthStore();
+  const dispatch = useDispatch();
 
   // Estado para abrir el submenu de usuario
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -32,7 +33,8 @@ export default function IconButtom({ menu, user }) {
 
   //Evento
   const handleClick = () => {
-    startLogout();
+    dispatch(onLogout());
+    navigate('/');
   };
 
   return (

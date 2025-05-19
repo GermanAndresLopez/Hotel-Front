@@ -2,51 +2,24 @@ import { Link } from 'react-router-dom';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
-
 import '../index.css';
 import imagen from '../assets/images/logo.png';
-import { useAuthStore } from '../hooks/useAuthStore';
-import { useForm } from '../hooks/useForm';
-import CustomAlert from '../Components/CustomAlert';
-
-const signInForm = {
-  username: '',
-  password: '',
-};
-
-const formValidations = {
-  username: [
-    (value = '') => value.trim().length !== 0,
-    'Debe ingresar el nombre de usuario',
-  ],
-  password: [
-    (value = '') => value.trim().length !== 0,
-    'Debe ingresar la contraseña',
-  ],
-};
+import Alert from '../Components/Alert';
+import { useSignIn } from '../hooks/auth/useSignIn';
 
 export default function SignIn() {
   const {
-    isFormPosted,
-    isFormValid,
+    alerta,
+    setAlerta,
+    handleSubmit,
+    navigate,
+    isFormSubmitted,
+    nombreUsuario,
+    nombreUsuarioValid,
     onInputChange,
     password,
     passwordValid,
-    setIsFormPosted,
-    username,
-    usernameValid,
-  } = useForm(signInForm, formValidations);
-
-  const { errorMessage, startSignIn } = useAuthStore();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (!isFormPosted) setIsFormPosted(true);
-    if (!isFormValid) return;
-
-    startSignIn(username, password);
-  };
+  } = useSignIn();
 
   return (
     <Container maxWidth="sm">
@@ -106,21 +79,21 @@ export default function SignIn() {
                   borderBottomColor: 'white', // Cambia el color de la línea en hover
                 },
               }}
-              name="username"
-              size="normal"
+              name="nombreUsuario"
+              id="standard-basic"
               variant="standard"
-              label="Usuario"
-              type="text"
-              value={username}
+              label="Nombre De Usuario"
+              color="secondary"
+              value={nombreUsuario}
               fullWidth
-              error={!!usernameValid && isFormPosted}
-              helperText={isFormPosted && usernameValid}
+              error={!!nombreUsuarioValid && isFormSubmitted}
+              helperText={isFormSubmitted && nombreUsuarioValid}
+              onChange={onInputChange}
               InputLabelProps={{ style: { color: 'white' } }}
               inputProps={{
-                'aria-label': 'username',
+                'aria-label': 'nombreUsuario',
                 style: { color: 'white' },
               }}
-              onChange={onInputChange}
             />
           </Box>
 
@@ -152,11 +125,11 @@ export default function SignIn() {
               type="password"
               value={password}
               fullWidth
-              error={!!passwordValid && isFormPosted}
-              helperText={isFormPosted && passwordValid}
+              error={!!passwordValid && isFormSubmitted}
+              helperText={isFormSubmitted && passwordValid}
               InputLabelProps={{ style: { color: 'white' } }}
               inputProps={{
-                'aria-label': 'password',
+                'aria-label': 'Contraseña',
                 style: { color: 'white' },
               }}
               onChange={onInputChange}
@@ -170,16 +143,25 @@ export default function SignIn() {
             margin="2px"
             sx={{ mb: 1 }}
           >
-            <Link to="/resetPassword">
-              <Typography
-                variant="body2"
-                color="primary"
-                sx={{ fontSize: '14px' }}
-              >
-                ¿Olvidaste tu contraseña?
-              </Typography>
-            </Link>
+            <Typography
+              variant="body2"
+              color="primary"
+              sx={{ fontSize: "14px", cursor: "pointer" }}
+            >
+             <Box display="flex" justifyContent="flex-end" margin="2px" sx={{ mb: 1 }}>
+  <Typography variant="body2" color="primary" sx={{ fontSize: "14px" }}>
+    <Link to="/ForgotPassword" style={{ color: '#580EF6' }}>
+      ¿Olvidaste tu contraseña?
+    </Link>
+  </Typography>
+</Box>
+
+              
+
+            </Typography>
           </Box>
+          {/* Notificación de alerta */}
+          <Alert alerta={alerta} setAlerta={setAlerta} />
 
           {/*- - Boton del formulario - -*/}
           <Box
@@ -202,11 +184,7 @@ export default function SignIn() {
             <Typography
               variant="body2"
               color="secondary"
-              sx={{
-                fontSize: '14px',
-                paddingRight: '1px',
-                cursor: 'pointer',
-              }}
+              sx={{ fontSize: '14px', paddingRight: '1px', cursor: 'pointer' }}
             >
               ¿No tienes cuenta?{' '}
               <Link to="/sign-up" style={{ color: '#580EF6' }}>
@@ -216,10 +194,6 @@ export default function SignIn() {
           </Box>
         </form>
       </Box>
-
-      <CustomAlert open={!!errorMessage} severity="error">
-        {errorMessage}
-      </CustomAlert>
     </Container>
   );
 }

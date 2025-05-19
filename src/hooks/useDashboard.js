@@ -8,7 +8,7 @@ export const useDashboard = () => {
 
   useEffect(() => {
     const getRooms = async () => {
-      const { data } = await api.get('habitaciones');
+      const { data } = await api.get('api/habitaciones');
       setRooms(data.habitaciones);
     };
 
