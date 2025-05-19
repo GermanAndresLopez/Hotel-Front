@@ -45,7 +45,7 @@ export default function Rooms() {
   const currentRoom = rooms[currentIndex];
 
   return (
-    <section className="py-16 bg-secondary/30 dark:bg-secondary/30 light:bg-gray-100">
+    <section className="py-16 bg-secondary/30 dark:bg-secondary/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400 mb-4">
@@ -57,42 +57,46 @@ export default function Rooms() {
         </div>
 
         <div className="relative max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-            <div className="relative h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-md">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            {/* Imagen */}
+            <div className="relative h-[400px] lg:h-[500px] rounded-xl overflow-hidden shadow-lg">
               <img
                 src={currentRoom.image}
                 alt={currentRoom.name}
-                className="w-full h-full object-cover transition-transform duration-500"
+                className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-105"
               />
 
+              {/* Botones de navegación */}
               <div className="absolute inset-0 flex items-center justify-between p-4">
                 <button
                   onClick={prevSlide}
-                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                  className="bg-black/40 hover:bg-black/60 text-white p-2 rounded-full shadow-md backdrop-blur transition"
                 >
                   <ChevronLeft size={24} />
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                  className="bg-black/40 hover:bg-black/60 text-white p-2 rounded-full shadow-md backdrop-blur transition"
                 >
                   <ChevronRight size={24} />
                 </button>
               </div>
 
+              {/* Indicadores */}
               <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
                 {rooms.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentIndex ? "bg-purple-500" : "bg-white/50"
+                    className={`w-3 h-3 rounded-full border-2 border-purple-500 ${
+                      index === currentIndex ? "bg-purple-500" : "bg-white"
                     }`}
                   />
                 ))}
               </div>
             </div>
 
+            {/* Detalles habitación */}
             <div className="bg-white dark:bg-secondary/50 p-8 rounded-xl border border-border shadow-sm dark:shadow-none">
               <div className="flex justify-between items-start mb-4">
                 <h3 className="text-2xl font-bold text-purple-600 dark:text-purple-400">{currentRoom.name}</h3>
@@ -103,17 +107,19 @@ export default function Rooms() {
               </div>
 
               <div className="mb-4">
-                <span className="text-2xl font-bold">${currentRoom.price}</span>
+                <span className="text-2xl font-bold text-purple-700 dark:text-purple-300">${currentRoom.price}</span>
                 <span className="text-foreground/70 text-sm"> / noche</span>
               </div>
 
-              <p className="text-foreground/80 mb-6">{currentRoom.description}</p>
+              <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+                {currentRoom.description}
+              </p>
 
               <div className="mb-6">
-                <h4 className="text-lg font-semibold mb-3">Características</h4>
+                <h4 className="text-lg font-semibold mb-3 text-purple-600 dark:text-purple-300">Características</h4>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {currentRoom.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-foreground/80">
+                    <li key={index} className="flex items-center text-gray-800 dark:text-gray-200">
                       <svg
                         className="h-4 w-4 text-purple-600 dark:text-purple-400 mr-2"
                         fill="none"
@@ -128,7 +134,7 @@ export default function Rooms() {
                 </ul>
               </div>
 
-              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded-lg">
+              <button className="w-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 transition text-white font-semibold py-2 rounded-lg shadow-md">
                 Reservar Esta Habitación
               </button>
             </div>

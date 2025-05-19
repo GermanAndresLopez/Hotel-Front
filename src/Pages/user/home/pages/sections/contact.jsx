@@ -37,23 +37,23 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-16 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400 mb-4">Contáctanos</h2>
+    <section id="contact" className="!py-16 bg-background">
+      <div className="container !mx-auto !px-4">
+        <div className="text-center !mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-purple-400 !mb-4">Contáctanos</h2>
           <p className="text-foreground/70 max-w-2xl mx-auto">
             Estamos aquí para responder tus preguntas y ayudarte a planificar tu estancia perfecta.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 !gap-12 items-start">
           {/* Contact Form */}
-          <div className="bg-white dark:bg-secondary/50 p-8 rounded-xl border border-border shadow-sm dark:shadow-none">
-            <h3 className="text-2xl font-bold mb-6">Envíanos un Mensaje</h3>
+          <div className="bg-black/50 !p-8 rounded-xl border-gray-100  shadow-none">
+            <h3 className="text-2xl font-bold !mb-6">Envíanos un Mensaje</h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="!space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+                <div className="!space-y-2">
                   <Label htmlFor="name">Nombre Completo</Label>
                   <Input
                     id="name"
@@ -66,7 +66,7 @@ export default function Contact() {
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="!space-y-2">
                   <Label htmlFor="email">Correo Electrónico</Label>
                   <Input
                     id="email"
@@ -82,7 +82,7 @@ export default function Contact() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+                <div className="!space-y-2">
                   <Label htmlFor="phone">Teléfono</Label>
                   <Input
                     id="phone"
@@ -94,7 +94,7 @@ export default function Contact() {
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="!space-y-2">
                   <Label htmlFor="subject">Asunto</Label>
                   <Input
                     id="subject"
@@ -108,7 +108,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="!space-y-2">
                 <Label htmlFor="message">Mensaje</Label>
                 <Textarea
                   id="message"
@@ -123,14 +123,14 @@ export default function Contact() {
               </div>
 
               <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700">
-                <Send className="h-4 w-4 mr-2" />
+                <Send className="h-4 w-4 !mr-2" />
                 Enviar Mensaje
               </Button>
             </form>
           </div>
 
           {/* Map and Contact Info */}
-          <div className="space-y-8">
+          <div className="!space-y-8">
             {/* Map */}
             <div className="h-[400px] w-full rounded-lg overflow-hidden shadow-sm dark:shadow-none">
               <iframe
@@ -145,12 +145,12 @@ export default function Contact() {
             </div>
 
             {/* Contact Info */}
-            <div className="bg-white dark:bg-secondary/50 p-8 rounded-xl border border-border shadow-sm dark:shadow-none">
-              <h3 className="text-2xl font-bold mb-6">Información de Contacto</h3>
+            <div className="bg-black/50 !p-8 rounded-xl border-gray-100 shadow-sm dark:shadow-none">
+              <h3 className="text-2xl font-bold !mb-6">Información de Contacto</h3>
 
-              <div className="space-y-6">
+              <div className="!space-y-6">
                 <div className="flex items-start">
-                  <div className="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-full mr-4">
+                  <div className="bg-purple-100 dark:bg-purple-900/50 !p-3 rounded-full !mr-4">
                     <MapPin className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
@@ -160,7 +160,7 @@ export default function Contact() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-full mr-4">
+                  <div className="bg-purple-100 dark:bg-purple-900/50 !p-3 rounded-full !mr-4">
                     <Phone className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
@@ -171,7 +171,7 @@ export default function Contact() {
                 </div>
 
                 <div className="flex items-start">
-                  <div className="bg-purple-100 dark:bg-purple-900/50 p-3 rounded-full mr-4">
+                  <div className="bg-purple-100 dark:bg-purple-900/50 !p-3 rounded-full !mr-4">
                     <Mail className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>

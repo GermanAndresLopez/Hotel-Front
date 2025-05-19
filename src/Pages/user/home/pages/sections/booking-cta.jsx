@@ -2,7 +2,7 @@ import { Button } from "../../components/ui/button"
 
 export default function BookingCTA() {
   return (
-    <section className="py-16 bg-purple-100/30 dark:bg-purple-900/30 relative overflow-hidden">
+    <section className="py-16! bg-purple-100/30 dark:bg-purple-900/30 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-purple-500 to-transparent"></div>

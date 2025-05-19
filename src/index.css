@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 html {
   height: 100%;
@@ -67,3 +65,4 @@ div {
   transition: 0.2s;
   transform: scale(1.05);
 }
+

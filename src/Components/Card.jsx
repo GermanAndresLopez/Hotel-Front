@@ -11,8 +11,6 @@ import {
 import Calificacion from "./Calificacion";
 
 // Para cargar las imagenes de los personas
-const personas =  require.context('../assets/images',true);
-
 export default function Cards({ datos }) {
   return (
     <Card
@@ -25,12 +23,12 @@ export default function Cards({ datos }) {
       }}
     >
       <CardActionArea>
-        <CardMedia
+        {/*<CardMedia
           component="img"
           sx={{ height: 200, width: 345, objectPosition:"cover" }}
           image={personas(datos.imagen)}
           alt="Reseña"
-        />
+        />*/}
 
         <CardContent sx={{ backgroundColor: "#191919", height: 100 }}>
           <Typography gutterBottom variant="h5" component="div">

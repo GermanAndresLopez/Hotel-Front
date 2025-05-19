@@ -16,12 +16,12 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative h-full container mx-auto px-4 flex flex-col justify-center items-start">
+      <div className="relative h-full container mx-auto px-4! flex flex-col justify-center items-start">
         <div className="max-w-2xl">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-white">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4! text-white">
             <span className="text-purple-400">Lujo</span> y Elegancia en Cada Detalle
           </h1>
-          <p className="text-lg md:text-xl mb-8 text-gray-300">
+          <p className="text-lg md:text-xl mb-8! text-gray-300">
             Disfruta de una estancia inolvidable en nuestro exclusivo hotel con vistas impresionantes y servicios de
             primera clase.
           </p>

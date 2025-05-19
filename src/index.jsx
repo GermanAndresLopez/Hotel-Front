@@ -1,7 +1,9 @@
-import ReactDOM from 'react-dom/client';
+
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
 
 import App from './App';
 import './index.css';
@@ -24,14 +26,15 @@ const theme = createTheme({
   },
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
-  <Router>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </Provider>
-  </Router>
-);
+createRoot(document.getElementById('root')).render(
+  <StrictMode>
+    <Router>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </Provider>
+    </Router>
+  </StrictMode>
+  
+)

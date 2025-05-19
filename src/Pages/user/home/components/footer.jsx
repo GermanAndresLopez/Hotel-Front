@@ -4,16 +4,16 @@ import { Facebook, Instagram, Twitter, Mail, Phone, MapPin } from "lucide-react"
 export default function Footer() {
   return (
     <footer className="bg-black text-white border-t border-purple-900/30">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto !px-4 !py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-purple-400">LUXURY HOTEL</h3>
-            <p className="text-gray-400 mb-4">
+            <h3 className="text-xl font-bold !mb-4 text-purple-400">LUXURY HOTEL</h3>
+            <p className="text-gray-400 !mb-4">
               Ofrecemos una experiencia única de hospedaje con servicios de lujo y atención personalizada para hacer de
               tu estancia un momento inolvidable.
             </p>
-            <div className="flex space-x-4">
+            <div className="flex !space-x-4">
               <a href="#" className="text-gray-400 hover:text-purple-400 transition-colors">
                 <Facebook size={20} />
                 <span className="sr-only">Facebook</span>
@@ -31,8 +31,8 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-purple-400">Enlaces Rápidos</h3>
-            <ul className="space-y-2">
+            <h3 className="text-xl font-bold !mb-4 text-purple-400">Enlaces Rápidos</h3>
+            <ul className="!space-y-2">
               <li>
                 <Link to="/" className="text-gray-400 hover:text-white transition-colors">
                   Inicio
@@ -68,18 +68,18 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-purple-400">Contacto</h3>
-            <ul className="space-y-3">
+            <h3 className="text-xl font-bold !mb-4 text-purple-400">Contacto</h3>
+            <ul className="!space-y-3">
               <li className="flex items-start">
-                <MapPin className="h-5 w-5 text-purple-400 mr-2 mt-0.5" />
+                <MapPin className="h-5 w-5 text-purple-400 !mr-2 !mt-0.5" />
                 <span className="text-gray-400">Av. Principal 123, Ciudad, País</span>
               </li>
               <li className="flex items-center">
-                <Phone className="h-5 w-5 text-purple-400 mr-2" />
+                <Phone className="h-5 w-5 text-purple-400 !mr-2" />
                 <span className="text-gray-400">+123 456 7890</span>
               </li>
               <li className="flex items-center">
-                <Mail className="h-5 w-5 text-purple-400 mr-2" />
+                <Mail className="h-5 w-5 text-purple-400 !mr-2" />
                 <span className="text-gray-400">info@luxuryhotel.com</span>
               </li>
             </ul>
@@ -87,18 +87,18 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-xl font-bold mb-4 text-purple-400">Suscríbete</h3>
-            <p className="text-gray-400 mb-4">Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
-            <form className="space-y-2">
+            <h3 className="text-xl font-bold !mb-4 text-purple-400">Suscríbete</h3>
+            <p className="text-gray-400 !mb-4">Recibe nuestras últimas ofertas y novedades directamente en tu correo.</p>
+            <form className="!space-y-2">
               <input
                 type="email"
                 placeholder="Tu correo electrónico"
-                className="w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-purple-500"
+                className="w-full !px-4 !py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-purple-500"
                 required
               />
               <button
                 type="submit"
-                className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded-md transition-colors"
+                className="w-full bg-purple-600 hover:bg-purple-700 text-white !py-2 !px-4 rounded-md transition-colors"
               >
                 Suscribirse
               </button>
@@ -106,9 +106,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+        <div className="border-t border-gray-800 !mt-12 !pt-8 text-center text-gray-400">
           <p>© {new Date().getFullYear()} Luxury Hotel. Todos los derechos reservados.</p>
-          <div className="mt-2 space-x-4">
+          <div className="!mt-2 !space-x-4">
             <Link to="/terminos" className="hover:text-white transition-colors">
               Términos y Condiciones
             </Link>
