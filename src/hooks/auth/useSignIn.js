@@ -54,6 +54,8 @@ export const useSignIn = () => {
     try {
       const { data } = await api.post('login', formState);
       const { auth, usuario } = data;
+      console.log('Usuario recibido del backend:', usuario);
+
 
       // Alertas dependiendo de la respuesta
       if (!auth) {

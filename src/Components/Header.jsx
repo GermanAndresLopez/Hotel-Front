@@ -12,6 +12,8 @@ import {
   AppBar,
   Container,
   Toolbar,
+  Avatar,
+  Divider,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../assets/images/logo.png';
@@ -39,6 +41,7 @@ export default function Header({ listaMenu }) {
     {
       titulo: 'Panel de administración',
       path: '/dashboard',
+      rolesPermitidos: ['administrador'],
     },
     {
       titulo: 'Reservas',
@@ -54,6 +57,11 @@ export default function Header({ listaMenu }) {
     },
   ];
 
+  const menuFiltrado = menu.filter((item) => {
+    if (!item.rolesPermitidos) return true;
+    return user && item.rolesPermitidos.includes(user.rol);
+  });
+
   return (
     <AppBar
       color="third"
@@ -67,7 +75,6 @@ export default function Header({ listaMenu }) {
     >
       <Container maxWidth="x1" color="inherit">
         <Toolbar disableGutters>
-          {/*- - Icono Responsive - - */}
           <Link
             to="/"
             style={{ display: 'flex', alignItems: 'center', gap: '5px' }}
@@ -90,15 +97,14 @@ export default function Header({ listaMenu }) {
             </Typography>
           </Link>
 
-          {/*- - Menu Responsive - -*/}
+          {/* Menú Responsive solo botón hamburguesa */}
           <Box
             sx={{
               justifyContent: 'flex-end',
               flexGrow: 1,
-              display: { xs: 'flex', md: 'none' },
+              display: 'flex',
             }}
           >
-            {user ? <IconButtom menu={menu} user={user} /> : null}
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -109,6 +115,7 @@ export default function Header({ listaMenu }) {
             >
               <MenuIcon />
             </IconButton>
+
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -127,74 +134,71 @@ export default function Header({ listaMenu }) {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {/*- - Generamos los botones del menu - -*/}
-              {listaMenu.map((page) => (
-                <MenuItem key={page.titulo} onClick={() => navigate(page.path)}>
+              {/* Mostrar usuario y rol en móvil */}
+              {user && (
+                <Box sx={{ px: 2, py: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Avatar sx={{ width: 32, height: 32 }} />
+                    <Box>
+                      <Typography variant="body1">Bienvenido, {user.nombre}</Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        Rol: {user.rol}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Divider sx={{ my: 1 }} />
+                </Box>
+              )}
+
+              {/* Menú */}
+              {menuFiltrado.map((page) => (
+                <MenuItem
+                  key={page.titulo}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigate(page.path);
+                  }}
+                >
                   <Typography textAlign="center">{page.titulo}</Typography>
                 </MenuItem>
               ))}
 
-              {/*- - Si no se ha iniciado sesion generamos los botones de registro - -*/}
-
-              {!user ? (
-                <Box
-                  sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)' }}
-                >
-                  {/*- - Boton Iniciar sesion - -*/}
+              {/* Registro / Login si no está autenticado */}
+              {!user && (
+                <Box sx={{ display: 'grid', gridTemplateRows: 'repeat(2, 1fr)', p: 2 }}>
                   <Button
                     key={98}
-                    className="hover:text-violet-900"
                     sx={{ color: 'black' }}
-                    onClick={() => navigate('/sign-in')}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate('/sign-in');
+                    }}
                   >
-                    Iniciar Sesion
+                    Iniciar Sesión
                   </Button>
 
-                  {/* Botón Registrar */}
                   <Button
                     key={97}
                     className="bg-[#580ef6]"
                     variant="contained"
-                    onClick={() => navigate('/sign-up')}
+                    onClick={() => {
+                      handleCloseNavMenu();
+                      navigate('/sign-up');
+                    }}
                   >
                     Registrarse
                   </Button>
                 </Box>
-              ) : null}
+              )}
             </Menu>
           </Box>
 
-          {/*- - Generamos los botones del encabezado - -*/}
-          <Box
-            sx={{
-              flexGrow: 1,
-              justifyContent: 'flex-end',
-              display: { xs: 'none', md: 'flex' },
-            }}
-          >
-            {listaMenu.map((page) => (
-              <Button
-                key={page.path}
-                onClick={() => navigate(page.path)}
-                sx={{
-                  transition: '0.2s',
-                  '&:hover': { transform: 'scale(1.05)' },
-                  my: 2,
-                  color: 'white',
-                  display: 'block',
-                }}
-              >
-                {page.titulo}
-              </Button>
-            ))}
-          </Box>
+          
 
-          {/*- - Ponemos los botones de registro o avatar del usuario - -*/}
+          {/* Registro o Avatar en escritorio */}
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            {/*- - Botones de Login y Registro de usuario - -*/}
             {!user ? (
               <Box sx={{ alignItems: 'flex-start' }}>
-                {/*- - Boton Iniciar sesion - -*/}
                 <Button
                   key={96}
                   sx={{
@@ -206,10 +210,8 @@ export default function Header({ listaMenu }) {
                   onClick={() => navigate('/sign-in')}
                   variant="outlined"
                 >
-                  Iniciar Sesion
+                  Iniciar Sesión
                 </Button>
-
-                {/* Botón Registrar */}
                 <Button
                   key={95}
                   variant="contained"
@@ -224,7 +226,16 @@ export default function Header({ listaMenu }) {
                 </Button>
               </Box>
             ) : (
-              <IconButtom menu={menu} user={user} />
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Typography variant="body2" color="white">
+                  Bienvenido {user.rol}
+                </Typography>
+                <Typography variant="body1" color="white">
+                  
+                  {user.nombreUsuario}
+                </Typography>
+                <IconButtom menu={menuFiltrado} user={user} />
+              </Box>
             )}
           </Box>
         </Toolbar>

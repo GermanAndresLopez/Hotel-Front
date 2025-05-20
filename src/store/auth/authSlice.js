@@ -7,6 +7,7 @@ export const authSlice = createSlice({
     status: 'checking', // checking, not-authenticated, authenticated
     user: null,
     errorMessage: null,
+    rol:null,
   },
 
   reducers: {
@@ -14,13 +15,16 @@ export const authSlice = createSlice({
       state.status = 'authenticated';
       state.user = payload;
       state.errorMessage = null;
+      state.rol = payload.rol;
     },
 
     onLogout: (state) => {
       state.status = 'not-authenticated';
       state.user = null;
       state.errorMessage = null;
-    },
+      state.rol = null; 
+    }
+    
   },
 });
 
