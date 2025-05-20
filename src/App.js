@@ -18,14 +18,25 @@ import Bed from './Pages/bed-rooms';
 import Dashboard from './Pages/Dashboard';
 import ForgotPassword from './Pages/ForgotPassword';
 import ResetPassword from './Pages/ResetPassword';
+import { useSelector } from 'react-redux';
+
 export default function App() {
-  // Lista que contiene los titulos del header
-  const listaMenu = [
-    {
-      titulo: 'NOSOTROS',
-      path: '/about-us',
-    },
-  ];
+  
+  const { rol } = useSelector((state) => state.auth);
+
+const listaMenu = [
+  {
+    titulo: 'NOSOTROS',
+    path: '/about-us',
+  },
+];
+
+if (rol) {
+  listaMenu.push({
+    titulo: `ROL: ${rol}`,
+    path: '#',
+  });
+}
 
   // Estado para saber si un usuario inicio sesion
   const [auth, setAuth] = useState({
@@ -33,10 +44,11 @@ export default function App() {
     userName: '',
   });
 
-  // Estado para obtener los datos de la habitacion que se reservara
+  
+
   const [room, setRoom] = useState({});
 
-  // Funcion para cambiar el estado de actividad del cliente
+
   const cambiarEstadoAuth = (nuevoEstado) => {
     setAuth(nuevoEstado);
   };

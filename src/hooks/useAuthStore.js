@@ -25,7 +25,12 @@ export const useAuthStore = () => {
       dispatch(chekingCredentials());
       await delay(1000);
 
-      dispatch(onLogin({ name: usuario.nombreUsuario }));
+      dispatch(onLogin({
+        name: usuario.nombreUsuario,
+        rol: usuario.rol, 
+      }));
+      
+
     } catch (error) {
       dispatch(onLogout('Error al iniciar sesión'));
     }
@@ -36,7 +41,7 @@ export const useAuthStore = () => {
       await api.post('logout');
       dispatch(onLogout(null));
     } catch (error) {
-      dispatch(onLogout(error));
+      dispatch(onLogout(error));s
     }
   };
 
@@ -50,7 +55,11 @@ export const useAuthStore = () => {
         return;
       }
 
-      dispatch(onLogin({ id: usuario._id, name: usuario.nombreUsuario }));
+      dispatch(onLogin({
+        name: usuario.nombreUsuario,
+        rol: usuario.rol, // <- Asegúrate de que el backend lo esté enviando
+      }));
+      
     } catch (error) {
       dispatch(onLogout(null));
     }
