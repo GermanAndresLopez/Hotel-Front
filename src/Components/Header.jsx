@@ -48,14 +48,22 @@ export default function Header({ listaMenu }) {
       path: '/AdminExtras/AdministrarProductos',
       rolesPermitidos: ['administrador'],
     },
+{
+    titulo: 'Servicios y Productos',
+    path: '/UserExtras/SolicitarProductos',
+    rolesPermitidos: ['usuario'],
+  },
+
 
     {
       titulo: 'Reservas',
       path: '/Booking',
+      rolesPermitidos: ['usuario'],
     },
     {
       titulo: 'Habitaciones',
       path: '/bed-rooms',
+      rolesPermitidos: ['usuario'],
     },
     {
       titulo: 'Cerrar Sesion',
