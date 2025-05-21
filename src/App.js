@@ -19,6 +19,8 @@ import Dashboard from './Pages/Dashboard';
 import ForgotPassword from './Pages/ForgotPassword';
 import ResetPassword from './Pages/ResetPassword';
 import { useSelector } from 'react-redux';
+import AdministrarProductos from './Pages/AdminExtras/AdministrarProductos';
+
 
 export default function App() {
   
@@ -74,6 +76,7 @@ if (rol) {
         <Route path="/Booking" element={<Booking />} />
         <Route path="/bed-rooms" element={<Bed />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/AdminExtras/AdministrarProductos" element={<AdministrarProductos />} />
 
 <Route path="/ResetPassword/:token" element={<ResetPassword />} />
       </Routes>
