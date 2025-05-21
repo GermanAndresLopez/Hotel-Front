@@ -1,6 +1,5 @@
-import { React, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import '../index.css';
 import {
   Button,
@@ -16,10 +15,11 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import logo from '../assets/images/logo.png';
 import IconButtom from './IconButtom';
+import { useAuthStore } from '../hooks/auth/useAuthStore';
 
 export default function Header({ listaMenu }) {
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const { user } = useSelector((state) => state.auth);
+  const { user } = useAuthStore();
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);

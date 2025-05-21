@@ -1,13 +1,13 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Button, Container, TextField, Typography } from '@mui/material';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import LockIcon from '@mui/icons-material/Lock';
+import { AccountCircle, Lock } from '@mui/icons-material';
 
 import '../index.css';
 import imagen from '../assets/images/logo.png';
-import Alert from '../Components/Alert';
 import { useAuthStore } from '../hooks/auth/useAuthStore';
 import { useForm } from '../hooks/useForm';
+import { CustomAlert } from '../Components/CustomAlert';
 
 const signInForm = {
   username: '',
@@ -26,7 +26,8 @@ const formValidations = {
 };
 
 export default function SignIn() {
-  const { startSignIn } = useAuthStore();
+  const [openAlert, setOpenAlert] = useState(false);
+  const { errorMessage, startSignIn } = useAuthStore();
   const {
     isFormPosted,
     isFormValid,
@@ -45,6 +46,11 @@ export default function SignIn() {
     if (!isFormValid) return;
 
     await startSignIn(username, password);
+    setOpenAlert(true);
+  };
+
+  const handleClose = () => {
+    setOpenAlert(false);
   };
 
   return (
@@ -125,7 +131,7 @@ export default function SignIn() {
 
           {/*- - Contraseña - -*/}
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-            <LockIcon
+            <Lock
               sx={{
                 color: 'primary',
                 marginRight: '1px',
@@ -181,7 +187,12 @@ export default function SignIn() {
           </Box>
 
           {/* Notificación de alerta */}
-          {/* <Alert alerta={alerta} setAlerta={setAlerta} /> */}
+
+          <CustomAlert
+            open={openAlert}
+            message={errorMessage}
+            onClose={handleClose}
+          />
 
           {/*- - Boton del formulario - -*/}
           <Box
