@@ -20,12 +20,12 @@ export default function Header() {
       <div className="container !mx-auto !px-4 !py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <a
-              href="/"
+            <span
+              to="/"
               className="text-2xl font-bold text-purple-600 dark:text-purple-400"
             >
               HOTEL LUXURY
-            </a>
+            </span>
           </div>
 
           {/* Desktop Navigation */}

@@ -5,6 +5,11 @@ export const menu = [
   },
 
   {
+    titulo: 'Servicios y productos',
+    path: '/UserExtras/SolicitarProductos',
+  },
+
+  {
     titulo: 'Reservas',
     path: '/Booking',
   },
@@ -17,6 +22,11 @@ export const menu = [
 
 export const menuAdmin = [
   ...menu,
+  {
+    titulo: 'Administrar productos adicionales',
+    path: '/AdminExtras/AdministrarProductos',
+  },
+
   {
     titulo: 'Panel de administración',
     path: '/dashboard',

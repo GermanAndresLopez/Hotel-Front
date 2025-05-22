@@ -175,7 +175,7 @@ export default function SignIn() {
             margin="2px"
             sx={{ mb: 1 }}
           >
-            <Link>
+            <Link to="/ForgotPassword">
               <Typography
                 variant="body2"
                 color="primary"

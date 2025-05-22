@@ -20,7 +20,11 @@ import Booking from './Pages/Booking';
 import Bed from './Pages/bed-rooms';
 import Dashboard from './Pages/Dashboard';
 import { useAuthStore } from './hooks/auth/useAuthStore';
+import ForgotPassword from './Pages/ForgotPassword';
 import { Loader } from './Components/Loader';
+import ResetPassword from './Pages/ResetPassword';
+import AdministrarProductos from './Pages/AdministrarProductos';
+import GuestProductServiceView from './Pages/GuestProductServiceView';
 
 export default function App() {
   const { authStatus, checkAuthToken, user } = useAuthStore();
@@ -44,6 +48,8 @@ export default function App() {
               <Route path="/sign-up" element={<SignUp />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/*" element={<Navigate to={'/'} />} />
+              <Route path="/ForgotPassword" element={<ForgotPassword />} />
+              <Route path="/ResetPassword/:token" element={<ResetPassword />} />
             </>
           ) : (
             <>
@@ -54,12 +60,23 @@ export default function App() {
               <Route path="/profile" element={<Profile />} />
 
               {user.rol === 'administrador' && (
-                <Route path="/dashboard" element={<Dashboard />} />
+                <>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route
+                    path="/AdminExtras/AdministrarProductos"
+                    element={<AdministrarProductos />}
+                  />
+                </>
               )}
 
               <Route path="/Booking" element={<Booking />} />
               <Route path="/bed-rooms" element={<Bed />} />
               <Route path="/*" element={<Navigate to={'/profile'} />} />
+
+              <Route
+                path="/UserExtras/SolicitarProductos"
+                element={<GuestProductServiceView />}
+              />
             </>
           )}
         </Routes>
