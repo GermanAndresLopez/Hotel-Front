@@ -52,10 +52,18 @@ export const useSignIn = () => {
     if (!isFormValid) return;
 
     try {
-      const { data } = await api.post('login', formState);
+      const { data } = await api.post('login', formState, {
+        withCredentials: true // Asegura que las cookies se reciban
+      });
+      localStorage.setItem('token', data.token);
       const { auth, usuario } = data;
       console.log('Usuario recibido del backend:', usuario);
 
+      if (auth) {
+        // Guardar datos de usuario en Redux/localStorage si es necesario
+        dispatch(onLogin(data.usuario));
+        navigate('/');
+      }
 
       // Alertas dependiendo de la respuesta
       if (!auth) {
