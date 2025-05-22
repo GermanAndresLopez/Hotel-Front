@@ -45,7 +45,7 @@ export default function Header({ listaMenu }) {
     },
     {
       titulo: 'Administrar productos adicionales',
-      path: '/AdminExtras/AdministrarProductos',
+      path: '/AdminExtras/AdministrarServicios',
       rolesPermitidos: ['administrador'],
     },
 {
