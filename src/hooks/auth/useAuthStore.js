@@ -1,7 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import api from '../../config/axios';
-import { onLogin, onLogout } from '../../store/auth/authSlice';
+import {
+  chekingCredentials,
+  onLogin,
+  onLogout,
+} from '../../store/auth/authSlice';
+import { delay } from '../../lib/delay';
 
 export const useAuthStore = () => {
   const { status, errorMessage, user } = useSelector((state) => state.auth);
@@ -24,6 +29,8 @@ export const useAuthStore = () => {
         return;
       }
 
+      dispatch(chekingCredentials());
+      await delay(1000);
       dispatch(onLogin(usuario));
     } catch (error) {
       dispatch(onLogout(error.message));
