@@ -40,7 +40,7 @@ const formValidations = {
   ],
 };
 
-export default function Sign_up() {
+export default function SignUp() {
   const [openAlert, setOpenAlert] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const { startSignUp, errorMessage } = useAuthStore();

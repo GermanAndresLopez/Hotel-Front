@@ -9,7 +9,7 @@ import { ThemeProvider } from './Pages/user/home/hooks/theme-provider'; // 👈 
 // Pages
 import { Home } from './Pages/user/home/pages/home';
 import PropertyDetails from './Pages/PropertyDetails';
-import SignUp from './Pages/Sign-up';
+import SignUp from './Pages/SignUp';
 import Reviews from './Pages/Reviews';
 import Contact from './Pages/Contact-us';
 import About from './Pages/About-us';
