@@ -184,7 +184,7 @@ const AdministrarServicios = () => {
           withCredentials: true,
         }
       )
-      setSnackbar({ open: true, message: "Servicio eliminado correctamente", severity: "info" })
+      setSnackbar({ open: true, message: "Servicio eliminado satisfactoriamente", severity: "info" })
       obtenerServicios()
     } catch (error) {
       console.error("Error al eliminar:", error)
