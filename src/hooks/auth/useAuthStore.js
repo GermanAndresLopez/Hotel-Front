@@ -30,6 +30,27 @@ export const useAuthStore = () => {
     }
   };
 
+  const startSignUp = async (username, email, password) => {
+    try {
+      const { data } = await api.post('registrarse', {
+        nombreUsuario: username,
+        correo: email,
+        password,
+      });
+
+      const { auth, mensaje, usuario } = data;
+
+      if (!auth) {
+        dispatch(onLogout(mensaje[0]));
+        return;
+      }
+
+      dispatch(onLogin(usuario));
+    } catch {
+      dispatch(onLogout('No fue posible registrar el usuario'));
+    }
+  };
+
   const startLogout = async () => {
     try {
       await api.post('logout');
@@ -63,6 +84,7 @@ export const useAuthStore = () => {
     errorMessage,
     startLogout,
     startSignIn,
+    startSignUp,
     user,
   };
 };
