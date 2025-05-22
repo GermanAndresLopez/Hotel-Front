@@ -31,7 +31,7 @@ export default function IconButtom({ menu, user }) {
   };
 
   //Evento
-  const handleClick = async () => {
+  const onLogout = async () => {
     await startLogout();
   };
 
@@ -56,7 +56,7 @@ export default function IconButtom({ menu, user }) {
             vertical: 'top',
             horizontal: 'right',
           }}
-          keepMounted
+          // keepMounted
           transformOrigin={{
             vertical: 'top',
             horizontal: 'right',
@@ -69,12 +69,16 @@ export default function IconButtom({ menu, user }) {
             <MenuItem
               key={item.titulo}
               onClick={() =>
-                item.path === 'Cerrar' ? handleClick() : navigate(item.path)
+                item.path === 'Cerrar' ? onLogout() : navigate(item.path)
               }
             >
               <Typography textAlign="center">{item.titulo}</Typography>
             </MenuItem>
           ))}
+
+          <MenuItem onClick={onLogout}>
+            <Typography textAlign="center">Cerrar sesión</Typography>
+          </MenuItem>
         </Menu>
       </Box>
     </>

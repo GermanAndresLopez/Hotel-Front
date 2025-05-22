@@ -23,7 +23,7 @@ import { useAuthStore } from './hooks/auth/useAuthStore';
 import { Loader } from './Components/Loader';
 
 export default function App() {
-  const { authStatus, checkAuthToken } = useAuthStore();
+  const { authStatus, checkAuthToken, user } = useAuthStore();
 
   useEffect(() => {
     checkAuthToken();
@@ -52,7 +52,11 @@ export default function App() {
               <Route path="/contact-us" element={<Contact />} />
               <Route path="/about-us" element={<About />} />
               <Route path="/profile" element={<Profile />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+
+              {user.rol === 'administrador' && (
+                <Route path="/dashboard" element={<Dashboard />} />
+              )}
+
               <Route path="/Booking" element={<Booking />} />
               <Route path="/bed-rooms" element={<Bed />} />
               <Route path="/*" element={<Navigate to={'/profile'} />} />
