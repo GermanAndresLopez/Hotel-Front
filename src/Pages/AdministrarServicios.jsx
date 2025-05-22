@@ -41,7 +41,7 @@ const AdministrarServicios = () => {
     severity: 'success',
   });
 
-  const token = localStorage.getItem('token');
+  // const token = localStorage.getItem('token');
 
   const categorias = [
     { value: 'servicio', label: 'Servicio' },
@@ -63,10 +63,7 @@ const AdministrarServicios = () => {
 
   const obtenerServicios = async () => {
     try {
-      const res = await api.get('servicios', {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
+      const res = await api.get('servicios');
       setServicios(res.data.services);
     } catch (err) {
       console.error('Error al obtener servicios:', err);
@@ -146,24 +143,17 @@ const AdministrarServicios = () => {
 
     try {
       if (modoEdicion && servicioEditando) {
-        await api.put(`servicios/${servicioEditando}`, datos, {
-          headers: { Authorization: `Bearer ${token}` },
-          withCredentials: true,
-        });
+        await api.put(`servicios/${servicioEditando}`, datos);
         setSnackbar({
           open: true,
           message: 'Servicio actualizado con éxito',
           severity: 'success',
         });
       } else {
-        await api.post(
-          'servicios',
-          { ...datos, identificador: generarIdentificador() },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-            withCredentials: true,
-          }
-        );
+        await api.post('servicios', {
+          ...datos,
+          identificador: generarIdentificador(),
+        });
         setSnackbar({
           open: true,
           message: 'Servicio creado con éxito',
@@ -199,10 +189,7 @@ const AdministrarServicios = () => {
 
   const handleEliminarConfirmado = async () => {
     try {
-      await api.delete(`servicios/${servicioEliminar}`, {
-        headers: { Authorization: `Bearer ${token}` },
-        withCredentials: true,
-      });
+      await api.delete(`servicios/${servicioEliminar}`);
       setSnackbar({
         open: true,
         message: 'Servicio eliminado correctamente',
