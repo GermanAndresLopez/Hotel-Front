@@ -15,7 +15,7 @@ import Profile from './Pages/Profile-user';
 import { Box } from '@mui/material';
 import Booking from './Pages/Booking';
 import Bed from './Pages/bed-rooms';
-import Dashboard from './Pages/Dashboard';
+import Dashboard from './Pages/DashboardHabitacion/Dashboard';
 import ForgotPassword from './Pages/ForgotPassword';
 import ResetPassword from './Pages/ResetPassword';
 import { useSelector } from 'react-redux';

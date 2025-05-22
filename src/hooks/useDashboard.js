@@ -25,10 +25,19 @@ export const useDashboard = () => {
     setEditingRoom(room);
   };
 
+  const refreshRooms = async () => {
+    try {
+      const { data } = await api.get('/habitaciones');
+      setRooms(data.habitaciones || data);
+    } catch (err) {
+      setError("Error al actualizar la lista de habitaciones");
+      console.error(err);
+    }
+  };
+
   const handleOpen = (room = null) => {
     setEditingRoom(
       room || {
-        identificador: crypto.randomUUID(),
         nombre: '',
         imagen: [],
         descripcion: '',
@@ -42,9 +51,11 @@ export const useDashboard = () => {
   };
 
   const handleClose = () => {
+    editingRoom?.imagen?.forEach(img => {
+      if (img.preview) URL.revokeObjectURL(img.preview);
+    });
     setEditingRoom(null);
     setOpen(false);
-    setError(null);
   };
   /*
     const verifyAuth = async () => {
@@ -60,12 +71,10 @@ export const useDashboard = () => {
     };*/
 
   const handleSave = async () => {
+    const isNewRoom = !editingRoom.identificador || editingRoom.identificador === '';
     try {
       if (!document.cookie.includes('token=') && !localStorage.getItem('token')) {
-
         setError("No hay sesión activa. Por favor inicie sesión.");
-
-
       }
       console.log('Datos cooke:', document.cookie);
       console.log('Datos local:', localStorage.getItem('token'));
@@ -85,6 +94,7 @@ export const useDashboard = () => {
 
     try {
       const formData = new FormData();
+      const roomId = isNewRoom ? crypto.randomUUID() : editingRoom.identificador;
 
       // 1. Preparar datos para debug (antes de enviar)
       const debugData = {
@@ -115,7 +125,8 @@ export const useDashboard = () => {
       console.groupEnd();
 
       // 2. Agregar campos al FormData
-      formData.append('identificador', editingRoom.identificador);
+      // Siempre enviar el identificador (nuevo o existente)
+      formData.append('identificador', roomId);
       formData.append('nombre', editingRoom.nombre);
       formData.append('descripcion', editingRoom.descripcion || '');
       formData.append('capacidad', Number(editingRoom.capacidad));
@@ -157,28 +168,35 @@ export const useDashboard = () => {
         }
       };
 
-      const yaExiste = rooms.some(r => r.identificador === editingRoom.identificador);
+      const endpoint = isNewRoom
+        ? '/habitaciones'
+        : `/habitaciones/${editingRoom.identificador}`;
 
-      const endpoint = yaExiste
-        ? `/habitaciones/${editingRoom.identificador}`
-        : '/habitaciones';
-
-      const method = yaExiste ? 'put' : 'post';
+      const method = isNewRoom ? 'post' : 'put';
 
       console.log(`Enviando ${method.toUpperCase()} a ${endpoint}`);
-      const response = await api[method](endpoint, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      const response = await api[method](endpoint, formData, config);
       console.log('Respuesta del backend:', response.data);
 
       // 6. Actualizar estado
-      setRooms(prevRooms =>
-        editingRoom.identificador
-          ? prevRooms.map(r => r.identificador === editingRoom.identificador ? response.data : r)
-          : [...prevRooms, response.data]
-      );
+      if (response.data && response.data.data) {
+        // Actualizar el estado basado en la respuesta del backend
+        setRooms(prevRooms => {
+          if (isNewRoom) {
+            return [response.data.data, ...prevRooms];
+          } else {
+            return prevRooms.map(room =>
+              room.identificador === editingRoom.identificador
+                ? response.data.data
+                : room
+            );
+          }
+        });
+
+        handleClose();
+      } else {
+        throw new Error("Respuesta inesperada del servidor");
+      }
 
       handleClose();
     } catch (err) {
@@ -197,19 +215,38 @@ export const useDashboard = () => {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/habitaciones/${id}`, {
+      const confirmDelete = window.confirm(
+        '¿Está seguro que desea eliminar esta habitación? Esta acción no se puede deshacer.'
+      );
+
+      if (!confirmDelete) return;
+
+      const response = await api.delete(`/habitaciones/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       });
-      setRooms(rooms.filter(habitacion => habitacion.identificador !== id));
+
+      const success = response.data.deletedCount === 1 ||
+        (response.data.data?.acknowledged && response.data.data.deletedCount === 1) ||
+        response.data.status.includes("eliminada");
+
+      if (success) {
+        setRooms(prevRooms => prevRooms.filter(r => r.identificador !== id));
+      } else {
+        await refreshRooms();
+        setError("No se pudo confirmar la eliminación. Los datos se han actualizado.");
+      }
     } catch (err) {
       console.error("Error al eliminar:", err);
-      setError("Error al eliminar la habitación");
+      setError(err.response?.data?.message || "Error al eliminar la habitación");
+      // Actualizar la lista por si acaso
+      await refreshRooms();
     }
   };
 
   return {
+    refreshRooms,
     editingRoom,
     handleClose,
     handleDelete,
