@@ -23,7 +23,7 @@ import { useAuthStore } from './hooks/auth/useAuthStore';
 import ForgotPassword from './Pages/ForgotPassword';
 import { Loader } from './Components/Loader';
 import ResetPassword from './Pages/ResetPassword';
-import AdministrarProductos from './Pages/AdministrarProductos';
+import AdministrarServicios from './Pages/AdministrarServicios';
 import GuestProductServiceView from './Pages/GuestProductServiceView';
 
 export default function App() {
@@ -63,15 +63,15 @@ export default function App() {
                 <>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route
-                    path="/AdminExtras/AdministrarProductos"
-                    element={<AdministrarProductos />}
+                    path="/AdminExtras/AdministrarServicios"
+                    element={<AdministrarServicios />}
                   />
                 </>
               )}
 
               <Route path="/Booking" element={<Booking />} />
               <Route path="/bed-rooms" element={<Bed />} />
-              <Route path="/*" element={<Navigate to={'/profile'} />} />
+              <Route path="/*" element={<Navigate to={'/bed-rooms'} />} />
 
               <Route
                 path="/UserExtras/SolicitarProductos"

@@ -24,7 +24,7 @@ export const menuAdmin = [
   ...menu,
   {
     titulo: 'Administrar productos adicionales',
-    path: '/AdminExtras/AdministrarProductos',
+    path: '/AdminExtras/AdministrarServicios',
   },
 
   {
