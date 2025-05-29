@@ -15,6 +15,7 @@ import Profile from './Pages/Profile-user';
 import { Box } from '@mui/material';
 import Booking from './Pages/Booking';
 import Bed from './Pages/bed-rooms';
+import Bedold from './Pages/bed-roomsold';
 import Dashboard from './Pages/DashboardHabitacion/Dashboard';
 import ForgotPassword from './Pages/ForgotPassword';
 import ResetPassword from './Pages/ResetPassword';
@@ -77,6 +78,7 @@ if (rol) {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/Booking" element={<Booking />} />
         <Route path="/bed-rooms" element={<Bed />} />
+        <Route path="/bed-roomsold" element={<Bedold />} />
         <Route path="/ForgotPassword" element={<ForgotPassword />} />
         <Route path="/AdminExtras/AdministrarServicios" element={<AdministrarServicios />} />
         <Route path="/UserExtras/SolicitarProductos" element={<GuestProductServiceView />} />
