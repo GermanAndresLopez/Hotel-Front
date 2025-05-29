@@ -39,6 +39,7 @@ export const useAuthStore = () => {
   const startLogout = async () => {
     try {
       await api.post('logout');
+      localStorage.removeItem('token');
       dispatch(onLogout(null));
     } catch (error) {
       dispatch(onLogout(error));
@@ -58,7 +59,7 @@ export const useAuthStore = () => {
       dispatch(
         onLogin({
           name: usuario.nombreUsuario,
-          rol: usuario.rol, // <- Asegúrate de que el backend lo esté enviando
+          rol: usuario.rol,
         })
       );
     } catch (error) {
