@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Box, Container, Grid, Typography, Card, CardMedia, CardContent,
-  CardActions, Button, Dialog, DialogContent, DialogActions, 
+  CardActions, Button, Dialog, DialogContent, DialogActions,
   DialogTitle, useMediaQuery, Divider, IconButton
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -18,13 +18,20 @@ export default function Habitaciones() {
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [auth] = useState(true);
+  //const [auth] = useState(true);
+  const [auth, setAuth] = useState(null);
   const [habitaciones, setHabitaciones] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState({});
+
+  useEffect(() => {
+    const storedAuth = JSON.parse(localStorage.getItem("auth"));
+    setAuth(storedAuth);
+    console.log("Datos de auth:", storedAuth);
+  }, []);
 
   useEffect(() => {
     const fetchHabitaciones = async () => {
@@ -47,11 +54,19 @@ export default function Habitaciones() {
   }, []);
 
   const handleReservar = (habitacion) => {
+    console.log("UserID:", auth?.id);
     if (!auth) {
       alert("Inicie sesión para poder reservar.");
       return;
     }
-    navigate("/Booking", { state: { room: habitacion } });
+    console.log("UserID:", auth?.user);
+    // Asumiendo que tienes el ID del usuario en auth.userId o similar
+    navigate("/Booking", {
+      state: {
+        room: habitacion,
+        user: auth.user, // Aquí mandas el _id real del usuario
+      },
+    });
   };
 
   const handleOpenDetails = (habitacion) => {
@@ -110,9 +125,9 @@ export default function Habitaciones() {
         <Grid container spacing={4}>
           {habitaciones.map((habitacion) => (
             <Grid key={habitacion._id} item xs={12} sm={6} md={4}>
-              <Card sx={{ 
-                height: '100%', 
-                display: 'flex', 
+              <Card sx={{
+                height: '100%',
+                display: 'flex',
                 flexDirection: 'column',
                 transition: 'transform 0.3s',
                 '&:hover': {
@@ -120,8 +135,8 @@ export default function Habitaciones() {
                   boxShadow: 3
                 }
               }}>
-                <Box sx={{ 
-                  position: 'relative', 
+                <Box sx={{
+                  position: 'relative',
                   height: 250,
                   overflow: 'hidden'
                 }}>
@@ -129,13 +144,13 @@ export default function Habitaciones() {
                     component="img"
                     image={habitacion.imagen[currentImageIndex[habitacion._id] || 0]}
                     alt={`${habitacion.nombre} - Imagen ${currentImageIndex[habitacion._id] + 1}`}
-                    sx={{ 
+                    sx={{
                       width: '100%',
                       height: '100%',
                       objectFit: 'cover'
                     }}
                   />
-                  
+
                   {habitacion.imagen.length > 1 && (
                     <>
                       <IconButton
@@ -212,12 +227,12 @@ export default function Habitaciones() {
                 </Box>
 
                 <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography 
-                    gutterBottom 
-                    variant="h5" 
-                    component="div" 
+                  <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
                     color="primary"
-                    sx={{ 
+                    sx={{
                       fontWeight: 'bold',
                       mb: 1  // Reducido el margen inferior
                     }}
@@ -226,10 +241,10 @@ export default function Habitaciones() {
                   </Typography>
 
                   {habitacion.descripcion && (
-                    <Typography 
-                      variant="body2" 
-                      color="text.secondary" 
-                      sx={{ 
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
                         mb: 2,
                         minHeight: '4.5em',
                         display: '-webkit-box',
@@ -242,9 +257,9 @@ export default function Habitaciones() {
                     </Typography>
                   )}
 
-                  <Box sx={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
                     mb: 2,
                     p: 1,
                     borderRadius: 1,
@@ -258,10 +273,10 @@ export default function Habitaciones() {
                   </Box>
 
                   <Box sx={{ mb: 2 }}>
-                    <Typography 
-                      variant="subtitle2" 
-                      gutterBottom 
-                      sx={{ 
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      sx={{
                         fontWeight: 'bold',
                         color: 'text.primary'
                       }}
@@ -309,11 +324,11 @@ export default function Habitaciones() {
                   </Typography>
                 </CardContent>
 
-                <CardActions sx={{ 
-                  justifyContent: 'space-between', 
-                  px: 2, 
+                <CardActions sx={{
+                  justifyContent: 'space-between',
+                  px: 2,
                   pb: 2,
-                  pt: 0 
+                  pt: 0
                 }}>
                   <Button
                     size="medium"
@@ -328,7 +343,7 @@ export default function Habitaciones() {
                     variant="contained"
                     color="success"
                     onClick={() => handleReservar(habitacion)}
-                    sx={{ 
+                    sx={{
                       fontWeight: 'bold',
                       px: 3
                     }}
@@ -356,7 +371,7 @@ export default function Habitaciones() {
             }
           }}
         >
-          <DialogTitle sx={{ 
+          <DialogTitle sx={{
             backgroundColor: '#bdaff8',  // Color más suave
             color: '#291a6c',
             py: 3
@@ -371,8 +386,8 @@ export default function Habitaciones() {
 
           <DialogContent dividers sx={{ pt: 3 }}>
             {/* Carrusel en el diálogo */}
-            <Box sx={{ 
-              position: 'relative', 
+            <Box sx={{
+              position: 'relative',
               height: isMobile ? 250 : 400,
               mb: 4,
               borderRadius: 2,
@@ -382,13 +397,13 @@ export default function Habitaciones() {
                 component="img"
                 image={selectedRoom.imagen[currentImageIndex[selectedRoom._id] || 0]}
                 alt={`${selectedRoom.nombre} - Imagen ${currentImageIndex[selectedRoom._id] + 1}`}
-                sx={{ 
+                sx={{
                   width: '100%',
                   height: '100%',
                   objectFit: 'cover'
                 }}
               />
-              
+
               {selectedRoom.imagen.length > 1 && (
                 <>
                   <IconButton
@@ -456,16 +471,16 @@ export default function Habitaciones() {
             </Box>
 
             {/* Contenido en una sola columna */}
-            <Box sx={{ 
+            <Box sx={{
               backgroundColor: 'background.paper',
               p: 3,
               borderRadius: 2,
               boxShadow: 1
             }}>
-              <Typography 
-                variant="h6" 
-                gutterBottom 
-                sx={{ 
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
                   color: 'primary.main',
                   fontWeight: 'bold',
                   mb: 2,
@@ -476,10 +491,10 @@ export default function Habitaciones() {
               >
                 Descripción
               </Typography>
-              <Typography 
-                variant="body1" 
-                paragraph 
-                sx={{ 
+              <Typography
+                variant="body1"
+                paragraph
+                sx={{
                   whiteSpace: 'pre-line',
                   color: 'text.primary',
                   mb: 3
@@ -488,9 +503,9 @@ export default function Habitaciones() {
                 {selectedRoom.descripcion}
               </Typography>
 
-              <Box sx={{ 
-                display: 'flex', 
-                alignItems: 'center', 
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
                 mt: 2,
                 mb: 3,
                 p: 2,
@@ -503,10 +518,10 @@ export default function Habitaciones() {
                 </Typography>
               </Box>
 
-              <Typography 
-                variant="h6" 
-                gutterBottom 
-                sx={{ 
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
                   color: 'primary.main',
                   fontWeight: 'bold',
                   mb: 2,
@@ -519,8 +534,8 @@ export default function Habitaciones() {
               </Typography>
               <Box sx={{ mb: 2 }}>
                 {selectedRoom.caracteristicas.map((caract, index) => (
-                  <Box key={index} sx={{ 
-                    display: 'flex', 
+                  <Box key={index} sx={{
+                    display: 'flex',
                     alignItems: 'center',
                     p: 1,
                     mb: 1,
@@ -539,15 +554,15 @@ export default function Habitaciones() {
             </Box>
           </DialogContent>
 
-          <DialogActions sx={{ 
-            justifyContent: 'space-between', 
-            px: 4, 
+          <DialogActions sx={{
+            justifyContent: 'space-between',
+            px: 4,
             py: 3,
             borderTop: '1px solid',
             borderColor: 'divider'
           }}>
-            <Button 
-              onClick={handleCloseDetails} 
+            <Button
+              onClick={handleCloseDetails}
               color="primary"
               size="large"
               sx={{ fontWeight: 'bold' }}
@@ -562,7 +577,7 @@ export default function Habitaciones() {
                 handleReservar(selectedRoom);
               }}
               size="large"
-              sx={{ 
+              sx={{
                 fontWeight: 'bold',
                 px: 4
               }}

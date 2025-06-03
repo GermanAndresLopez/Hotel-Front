@@ -1,30 +1,34 @@
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
+import React, { Fragment, useContext } from "react";
 import {
-  Box,
-  Container,
+  Grid,
+  Typography,
+  TextField,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
+  Container,
+  Box,
+  Alert,
+  AlertTitle
 } from "@mui/material";
-import React, { Fragment, useState, useContext } from "react";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import { reservaContext } from "../Pages/Booking";
 
 export default function BookingForm() {
   // Manejamos los estados de las reservas
-  const { reservas, setReservas } = useContext(reservaContext);
+  const { reserva, actualizarFechas,setReserva } = useContext(reservaContext);
+
+   const fechaMinimaSalida = reserva.fechas.ingreso 
+    ? dayjs(reserva.fechas.ingreso).add(1, 'day') 
+    : dayjs().add(1, 'day');
 
   // Para capturar la informacion del usuario
-  const handleOnChange = (evento) => {
+ /* const handleOnChange = (evento) => {
     setReservas({ ...reservas, [evento.target.name]: evento.target.value });
-  };
+  };*/
 
   return (
     <Fragment>
@@ -33,126 +37,129 @@ export default function BookingForm() {
           Datos De Reserva
         </Typography>
         <Grid container spacing={3}>
-          {/*- - Fecha de ingreso - -*/}
+          {/* Fecha de ingreso */}
           <Grid item xs={12} md={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                components={[
-                  "DatePicker",
-                  "MobileDatePicker",
-                  "DesktopDatePicker",
-                  "StaticDatePicker",
-                ]}
-              >
-                <DemoItem>
-                  <DatePicker
-                    label="Fecha De Vencimiento"
-                    name="fechaVencimiento"
-                    defaultValue={dayjs("2023-09-17")}
-                    onChange={(newDate) =>
-                      setReservas({
-                        ...reservas,
-                        fechaIngreso: newDate.toDate(),
-                      })
-                    }
-                  />
-                </DemoItem>
-              </DemoContainer>
+              <DatePicker
+                label="Fecha de Ingreso"
+                minDate={dayjs()}
+                value={reserva.fechas.ingreso ? dayjs(reserva.fechas.ingreso) : null}
+                onChange={(newDate) => {
+                  const ingreso = newDate.toDate();
+                  const salida = reserva.fechas.salida && newDate.isBefore(dayjs(reserva.fechas.salida)) 
+                    ? reserva.fechas.salida 
+                    : null;
+                  actualizarFechas(ingreso, salida);
+                }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    required: true
+                  }
+                }}
+              />
             </LocalizationProvider>
           </Grid>
 
-          {/*- - Fecha de salida - -*/}
+          {/* Fecha de salida */}
           <Grid item xs={12} md={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DemoContainer
-                components={[
-                  "DatePicker",
-                  "MobileDatePicker",
-                  "DesktopDatePicker",
-                  "StaticDatePicker",
-                ]}
-              >
-                <DemoItem>
-                  <DatePicker
-                    label="Fecha De Vencimiento"
-                    name="fechaVencimiento"
-                    defaultValue={dayjs("2023-09-17")}
-                    onChange={(newDate) =>
-                      setReservas({
-                        ...reservas,
-                        fechaSalida: newDate.toDate(),
-                      })
-                    }
-                  />
-                </DemoItem>
-              </DemoContainer>
+              <DatePicker
+                label="Fecha de Salida"
+                minDate={fechaMinimaSalida}
+                disabled={!reserva.fechas.ingreso}
+                value={reserva.fechas.salida ? dayjs(reserva.fechas.salida) : null}
+                onChange={(newDate) => {
+                  actualizarFechas(reserva.fechas.ingreso, newDate.toDate());
+                }}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    required: true
+                  }
+                }}
+              />
             </LocalizationProvider>
           </Grid>
 
-          {/*- - Habitacion - -*/}
-          <Grid item xs={12} sm={4}>
+          {/* Información de estadía */}
+          {reserva.fechas.noches > 0 && (
+            <Grid item xs={12}>
+              <Alert variant="filled" severity="info" >
+                <AlertTitle>Info</AlertTitle>
+                Estancia: {reserva.fechas.noches} noche(s) - Total: ${reserva.pago.monto.toLocaleString()}
+              </Alert>
+            </Grid>
+          )}
+
+          {/* Habitación */}
+          <Grid item xs={12} sm={6}>
             <TextField
               disabled
               fullWidth
-              id="outlined-disabled"
-              label="Habitacion"
-              defaultValue={reservas.habitacion}
-              sx={{ mt: 1 }}
+              label="Habitación"
+              value={reserva.habitacion.nombre}
             />
           </Grid>
 
-          {/*- - Cantidad de adultos - -*/}
-          <Grid item xs={12} sm={4}>
-            <FormControl
+          {/* Precio por noche */}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              disabled
               fullWidth
-              variant="standard"
-              sx={{ m: 1, minWidth: 200 }}
-            >
-              <InputLabel id="demo-simple-select-standard-label">
-                Adultos
-              </InputLabel>
+              label="Precio por noche"
+              value={`$${reserva.habitacion.precio.toLocaleString()}`}
+            />
+          </Grid>
+
+          {/* Cantidad de adultos */}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Adultos *</InputLabel>
               <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                name="adultos"
-                value={reservas.adultos}
-                fullWidth
-                onChange={handleOnChange}
                 label="Adultos"
+                value={reserva.huespedes.adultos}
+                onChange={(e) => {
+                  setReserva(prev => ({
+                    ...prev,
+                    huespedes: {
+                      ...prev.huespedes,
+                      adultos: e.target.value
+                    }
+                  }));
+                }}
               >
-                <MenuItem value={0}>0</MenuItem>
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
+                {[1, 2, 3, 4].map((num) => (
+                  <MenuItem key={num} value={num}>
+                    {num} {num === 1 ? 'adulto' : 'adultos'}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>
 
-          {/*- - Cantidad de niños - -*/}
-          <Grid item xs={12} sm={4}>
-            <FormControl
-              fullWidth
-              variant="standard"
-              sx={{ m: 1, minWidth: 200 }}
-            >
-              <InputLabel id="demo-simple-select-standard-label">
-                Niños
-              </InputLabel>
+          {/* Cantidad de niños */}
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <InputLabel>Niños</InputLabel>
               <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
-                name="niños"
-                fullWidth
-                value={reservas.niños}
-                onChange={handleOnChange}
                 label="Niños"
+                value={reserva.huespedes.niños}
+                onChange={(e) => {
+                  setReserva(prev => ({
+                    ...prev,
+                    huespedes: {
+                      ...prev.huespedes,
+                      niños: e.target.value
+                    }
+                  }));
+                }}
               >
-                <MenuItem value={0}>0</MenuItem>
-                <MenuItem value={1}>1</MenuItem>
-                <MenuItem value={2}>2</MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={4}>4</MenuItem>
+                {[0, 1, 2, 3].map((num) => (
+                  <MenuItem key={num} value={num}>
+                    {num} {num === 1 ? 'niño' : 'niños'}
+                  </MenuItem>
+                ))}
               </Select>
             </FormControl>
           </Grid>

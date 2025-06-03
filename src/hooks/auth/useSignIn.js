@@ -56,12 +56,21 @@ export const useSignIn = () => {
         withCredentials: true // Asegura que las cookies se reciban
       });
       localStorage.setItem('token', data.token);
+      localStorage.setItem('auth', JSON.stringify({
+        isAuthenticated: true,
+        user: data.usuario // Asegúrate que esto contiene el _id
+      }));
+
       const { auth, usuario } = data;
       console.log('Usuario recibido del backend:', usuario);
 
       if (auth) {
         // Guardar datos de usuario en Redux/localStorage si es necesario
-        dispatch(onLogin(data.usuario));
+        dispatch(onLogin({
+          isAuthenticated: true,
+          user: data.usuario
+        }));
+
         navigate('/');
       }
 

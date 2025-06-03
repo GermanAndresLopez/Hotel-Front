@@ -1,9 +1,13 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import Grid from '@mui/material/Grid';
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Grid,
+  Divider,
+  Box
+} from "@mui/material";
 
 const products = [
   {
@@ -23,55 +27,49 @@ const products = [
 const addresses = [];
 const payments = [];
 
-export default function InvoiceForm() {
+export default function InvoiceForm({ habitacion, fechas, huespedes, total }) {
   return (
-    <React.Fragment>
-      <Typography variant="h6" gutterBottom sx={{ color: 'primary.main' }}>
-        Resumen de orden
+    <>
+      <Typography variant="h6" gutterBottom>
+        Resumen de su reserva
       </Typography>
+      
       <List disablePadding>
-        {products.map((product) => (
-          <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText 
-              primary={product.name} 
-              secondary={product.desc} 
-              sx={{ color: 'primary.main' }}
-            />
-            <Typography variant="body2" sx={{ color: 'primary.main' }}>{product.price}</Typography>
-          </ListItem>
-        ))}
         <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Total" sx={{ color: 'primary.main' }} />
-          <Typography variant="subtitle1" sx={{ fontWeight: 700, color: 'primary.main' }}>
-            $180.000
+          <ListItemText primary="Habitación" secondary={habitacion.nombre} />
+          <Typography>${habitacion.precio.toLocaleString()} x {fechas.noches} noches</Typography>
+        </ListItem>
+        
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary="Huéspedes" />
+          <Typography>
+            {huespedes.adultos} adulto{huespedes.adultos > 1 ? 's' : ''}
+            {huespedes.niños > 0 && `, ${huespedes.niños} niño${huespedes.niños > 1 ? 's' : ''}`}
+          </Typography>
+        </ListItem>
+        
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary="Fechas" />
+          <Typography>
+            {new Date(fechas.ingreso).toLocaleDateString()} - {new Date(fechas.salida).toLocaleDateString()}
+          </Typography>
+        </ListItem>
+        
+        <Divider sx={{ my: 1 }} />
+        
+        <ListItem sx={{ py: 1, px: 0 }}>
+          <ListItemText primary="Total" />
+          <Typography variant="h6" fontWeight="bold">
+            ${total.toLocaleString()}
           </Typography>
         </ListItem>
       </List>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2, color: 'primary.main' }}>
-            Envio
-          </Typography>
-          <Typography gutterBottom sx={{ color: 'primary.main' }}>{addresses.join(', ')}</Typography>
-        </Grid>
-        <Grid item container direction="column" xs={12} sm={6}>
-          <Typography variant="h6" gutterBottom sx={{ mt: 2, color: 'primary.main' }}>
-            Detalles de pago
-          </Typography>
-          <Grid container>
-            {payments.map((payment) => (
-              <React.Fragment key={payment.name}>
-                <Grid item xs={6}>
-                  <Typography gutterBottom sx={{ color: 'primary.main' }}>{payment.name}</Typography>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography gutterBottom sx={{ color: 'primary.main' }}>{payment.detail}</Typography>
-                </Grid>
-              </React.Fragment>
-            ))}
-          </Grid>
-        </Grid>
-      </Grid>
-    </React.Fragment>
+      
+      <Box sx={{ mt: 3, p: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
+        <Typography variant="body2">
+          Su reserva está casi lista. Al hacer clic en "Confirmar Reserva", acepta nuestras políticas de cancelación.
+        </Typography>
+      </Box>
+    </>
   );
 }
