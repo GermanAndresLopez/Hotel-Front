@@ -32,12 +32,12 @@ function Booking() {
   const { room, user } = location.state || {};
   const [alerta, setAlerta] = useState({ open: false, tipo: "info", texto: "" });
   const [activeStep, setActiveStep] = useState(0);
-  if(room?.precio <= 0 || !room?.precio){
-     navigate("/bed-rooms");
+  if (room?.precio <= 0 || !room?.precio) {
+    navigate("/bed-rooms");
   }
 
   const [reserva, setReserva] = useState({
-    
+
     habitacion: {
       id: room?._id || "",
       nombre: room?.nombre || "",
@@ -60,6 +60,7 @@ function Booking() {
     },
     pago: {
       metodo: "tarjeta",
+      aceptoTerminos: false,
       detalles: {
         titular: "",
         numero: "",
@@ -234,7 +235,11 @@ function Booking() {
                 onClick={handleNext}
                 disabled={
                   (activeStep === 1 && (!reserva.contacto.nombre || !reserva.contacto.email)) ||
-                  (activeStep === 2 && (!reserva.pago.detalles.titular || !reserva.pago.detalles.numero))
+                  (activeStep === 2 && (
+                    (reserva.pago.metodo === "tarjeta" &&
+                      (!reserva.pago.detalles.titular || !reserva.pago.detalles.numero)) ||
+                    !reserva.pago.aceptoTerminos
+                  ))
                 }
               >
                 {activeStep === steps.length - 1 ? 'Confirmar Reserva' : 'Siguiente'}

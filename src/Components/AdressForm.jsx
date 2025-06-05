@@ -79,9 +79,17 @@ export default function AddressForm() {
 
           <Grid item xs={12}>
             <FormControlLabel
-              control={<Checkbox color="primary" />}
+              control={
+                <Checkbox
+                  /*checked={aceptoTerminos}
+                  onChange={(e) => setAceptoTerminos(e.target.checked)}
+                  required*/
+                />
+              }
               label="Usar esta información para detalles de pago"
+              sx={{ color: 'text.primary' }}
             />
+
           </Grid>
         </Grid>
       </Container>

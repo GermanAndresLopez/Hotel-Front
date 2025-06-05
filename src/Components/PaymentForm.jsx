@@ -10,8 +10,9 @@ import {
   FormControlLabel,
   Checkbox,
   Box,
-  Alert
-}from '@mui/material';
+  Alert,
+  AlertTitle
+} from '@mui/material';
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from 'dayjs';
@@ -21,12 +22,13 @@ export default function PaymentForm() {
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const { reserva, setReserva } = useContext(pagoContext);
-  const [metodoPago, setMetodoPago] = useState("tarjeta");
-  const [aceptoTerminos, setAceptoTerminos] = useState(false);
+  const metodoPago = reserva.pago.metodo;
+
+  //const [aceptoTerminos, setAceptoTerminos] = useState(false);
 
   // Para capturar la informacion del usuario
-  const handleChangePago  = (e) => {
-     const { name, value } = e.target;
+  const handleChangePago = (e) => {
+    const { name, value } = e.target;
     setReserva(prev => ({
       ...prev,
       pago: {
@@ -44,17 +46,26 @@ export default function PaymentForm() {
       <Typography variant="h6" gutterBottom>
         Método de Pago
       </Typography>
-      
+
       <Grid container spacing={3}>
         {/* Selección de método de pago */}
         <Grid item xs={12}>
           <FormControl fullWidth>
             <InputLabel>Método de pago *</InputLabel>
             <Select
-              value={metodoPago}
-              onChange={(e) => setMetodoPago(e.target.value)}
+              value={reserva.pago.metodo}
+              onChange={(e) =>
+                setReserva(prev => ({
+                  ...prev,
+                  pago: {
+                    ...prev.pago,
+                    metodo: e.target.value
+                  }
+                }))
+              }
               label="Método de pago"
             >
+
               <MenuItem value="tarjeta">Tarjeta de crédito/débito</MenuItem>
               <MenuItem value="transferencia">Transferencia bancaria</MenuItem>
               <MenuItem value="efectivo">Efectivo en el hotel</MenuItem>
@@ -66,11 +77,11 @@ export default function PaymentForm() {
         {metodoPago === "tarjeta" && (
           <>
             <Grid item xs={12}>
-              <Typography variant="subtitle1">
+              <Typography variant="subtitle1" sx={{ color: 'text.primary' }}>
                 Información de la tarjeta
               </Typography>
             </Grid>
-            
+
             <Grid item xs={12}>
               <TextField
                 required
@@ -81,7 +92,7 @@ export default function PaymentForm() {
                 onChange={handleChangePago}
               />
             </Grid>
-            
+
             <Grid item xs={12}>
               <TextField
                 required
@@ -96,7 +107,7 @@ export default function PaymentForm() {
                 }}
               />
             </Grid>
-            
+
             <Grid item xs={12} md={6}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -116,12 +127,23 @@ export default function PaymentForm() {
                     textField: {
                       fullWidth: true,
                       required: true
+                    },
+                    // Esto soluciona el problema de los colores translúcidos
+                    desktopPaper: {
+                      sx: {
+                        '& .MuiPickersYear-yearButton, & .MuiPickersMonth-monthButton': {
+                          color: 'text.primary'
+                        },
+                        '& .Mui-disabled': {
+                          color: 'text.disabled'
+                        }
+                      }
                     }
                   }}
                 />
               </LocalizationProvider>
             </Grid>
-            
+
             <Grid item xs={12} md={6}>
               <TextField
                 required
@@ -142,14 +164,15 @@ export default function PaymentForm() {
         {/* Campos para transferencia */}
         {metodoPago === "transferencia" && (
           <Grid item xs={12}>
-            <Alert severity="info">
-              Por favor realice la transferencia a la siguiente cuenta bancaria:
+            <Alert severity="info" variant="filled">
+              <AlertTitle>Por favor realice la transferencia a la siguiente cuenta bancaria:</AlertTitle>
+
               <br />
-              Banco: XYZ Bank
+              Banco: Bancolombia
               <br />
-              Cuenta: 123456789
+              Cuenta: xxxxxxxxx
               <br />
-              A nombre de: Hotel Ejemplo
+              A nombre de: Hotel Luxury
               <br />
               <strong>Referencia: RES-{reserva.habitacion.id.slice(0, 5).toUpperCase()}</strong>
             </Alert>
@@ -159,22 +182,35 @@ export default function PaymentForm() {
         {/* Campos para efectivo */}
         {metodoPago === "efectivo" && (
           <Grid item xs={12}>
-            <Alert severity="warning">
-              Deberá pagar en efectivo al momento de su llegada al hotel.
-              <br />
-              Recuerde que necesita presentar su identificación.
+            <Alert
+              severity="warning"
+              sx={{
+                bgcolor: '#fff8e1', // color de fondo personalizado para mejor contraste
+                '& .MuiAlert-message': {
+                  color: 'black' // fuerza el color del texto dentro del mensaje
+                }
+              }}
+            >
+              <Typography sx={{ fontWeight: 'bold', color: 'black' }}>
+                Deberá pagar en efectivo al momento de su llegada al hotel.
+              </Typography>
+              <Typography sx={{ color: 'black' }}>
+                Recuerde que necesita presentar su identificación.
+              </Typography>
             </Alert>
           </Grid>
         )}
 
         {/* Resumen de pago */}
         <Grid item xs={12}>
-          <Box sx={{ 
-            p: 2, 
-            border: '1px solid #ddd', 
+          <Box sx={{
+            p: 2,
+            border: '1px solid #ddd',
             borderRadius: 1,
-            backgroundColor: '#f9f9f9'
+            backgroundColor: '#f9f9f9',
+            color: 'text.primary' // Asegurar color negro
           }}>
+
             <Typography variant="subtitle1" gutterBottom>
               Resumen de pago
             </Typography>
@@ -195,13 +231,26 @@ export default function PaymentForm() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={aceptoTerminos}
-                onChange={(e) => setAceptoTerminos(e.target.checked)}
+                checked={reserva.pago.aceptoTerminos || false}
+                onChange={(e) => {
+                  setReserva(prev => ({
+                    ...prev,
+                    pago: {
+                      ...prev.pago,
+                      aceptoTerminos: e.target.checked
+                    }
+                  }));
+                }}
                 required
               />
             }
-            label="Acepto los términos y condiciones de reserva"
+            label={
+              <Typography sx={{ color: 'black', fontWeight: 'bold' }}>
+                Acepto los términos y condiciones de reserva *
+              </Typography>
+            }
           />
+
         </Grid>
       </Grid>
     </>
